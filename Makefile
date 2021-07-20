@@ -6,7 +6,7 @@
 #    By: agutierr <agutierr@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/07/19 18:57:47 by agutierr          #+#    #+#              #
-#    Updated: 2021/07/19 20:33:06 by agutierr         ###   ########.fr        #
+#    Updated: 2021/07/20 15:47:47 by agutierr         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,11 +15,12 @@ SRCS			=	main.c\
 					srcs/free.c\
 					srcs/utils.c\
 					srcs/msg.c\
+					srcs/fill_nd_parse.c\
 
 OBJS 			=	$(SRCS:.c=.o)
 
 GCC 			=	gcc
-CFLAGS			=	-Wall -Wall -Werror
+CFLAGS			=	#-Wall -Wall -Werror
 
 #############################
 RED 			= \033[0;31m
