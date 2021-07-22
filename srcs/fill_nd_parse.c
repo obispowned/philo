@@ -49,6 +49,11 @@ void	fill_structs(t_dat *dat)
 		dat->philos[i].teat = dat->teat;
 		dat->philos[i].tsleep = dat->tsleep;
 		dat->philos[i].eat_max = dat->eat_max;
+		dat->philos[i].lfork = i + 1;
+		if (i == 0)
+			dat->philos[i].rfork = dat->total_ph;
+		else
+			dat->philos[i].rfork = i;
 		pthread_mutex_init(&(dat->philos[i].lock), NULL);
 		pthread_mutex_init(&(dat->philos[i].special_lock), NULL);
 		i++;
