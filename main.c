@@ -28,6 +28,7 @@ void	*take_fork(void *arg)
 	philo = (t_ph *)arg;
 	while (1)
 	{
+		printf("yeyooo");
 	if (philo->ph_n == 1)
 	{
 		pthread_mutex_lock(philo->rrfork);
@@ -65,7 +66,7 @@ void	*take_fork(void *arg)
 			if ((aux_time - philo->last_eat) > philo->tdie)
 			{
 				printf("El filosofo %d ha muerto de hambre", philo->ph_n);
-				exit(0);
+				break;
 			}
 
 		}
@@ -89,7 +90,7 @@ void	create_threads(t_dat *dat)
 	i = 0;
 	while (i < dat->total_ph)
 	{
-		pthread_create(&(dat->philos[i].philos), NULL, &take_fork, &dat->philos[i]);
+		pthread_create(&(dat->philos[i].philos), NULL, take_fork, &dat->philos[i]);
 		i++;
 	}
 }
@@ -101,7 +102,7 @@ void	run_threads(t_dat *dat)
 	i = 0;
 	while (i < dat->total_ph)
 	{
-		pthread_join((dat->philos[i].philos), NULL);
+		pthread_join(dat->philos[i].philos, NULL);
 		i++;
 	}
 }
@@ -124,7 +125,10 @@ int	main(int argc, char **argv)
 	parsing_argv(argc, argv, &dat);
 	fill_structs(&dat);
 	dat.begin = fireee();
+	printf("0");
 	create_threads(&dat);
-	//run_threads(&dat);
+	printf("1");
+	run_threads(&dat);
+	free(mtx);
 }
 

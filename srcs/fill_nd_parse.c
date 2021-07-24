@@ -40,7 +40,7 @@ void	fill_structs(t_dat *dat)
 	int i;
 
 	i = 0;
-	mtx = malloc(sizeof(mtx) * dat->total_ph);
+	mtx = malloc(sizeof(pthread_mutex_t) * dat->total_ph);
 	while (i < dat->total_ph)
 	{
 		pthread_mutex_init(&mtx[i], NULL);
