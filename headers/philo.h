@@ -23,6 +23,8 @@
 # include <sys/time.h>
 # include <limits.h>
 
+pthread_mutex_t *mtx;
+
 typedef struct s_ph
 {
 	unsigned int	ph_n;
@@ -32,8 +34,10 @@ typedef struct s_ph
 	uint64_t		tsleep;
 	uint64_t		eat_max;
 	int				action;		//2 comer 1 dormir 0 pensar
-	pthread_mutex_t	lock;
-	pthread_mutex_t	special_lock;
+	int				lfork;
+	int				rfork;
+	pthread_mutex_t	llock;
+	pthread_mutex_t	rlock;
 }					t_ph;
 
 typedef struct s_dat
