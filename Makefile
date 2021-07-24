@@ -28,7 +28,7 @@ ifeq ($(detected_OS),Darwin)
     INCLUDE = -I headers/philo.h
 endif
 ifeq ($(detected_OS),Linux)
-    INCLUDE = -I headers/philo.h headers/linux.h
+    INCLUDE = -pthread
 endif
 
 #############################
@@ -41,11 +41,11 @@ RESET			= \033[0m
 all: $(NAME)
 
 %.o: %.c
-	$(GCC) $(CFLAGS) $(INCLUDES) -o $@ -c $^
+	$(GCC) $(CFLAGS) -o $@ -c $^
 
 $(NAME): $(OBJS)
 	@echo "${PURPLE}  Iniciando Compilacion ...${RESET}"
-	$(GCC) $(CFLAGS) $(OBJS) -o $(NAME)
+	$(GCC) $(CFLAGS) -pthread $(OBJS) -o $(NAME)
 	@echo "${GREEN}[.oOo.oOo.oOo.oOo.]"
 	@echo "[ C O M P I L A O ]"
 	@echo "[.oOo.oOo.oOo.oOo.]${RESET}"

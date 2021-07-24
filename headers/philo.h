@@ -37,6 +37,7 @@ typedef struct s_ph
 	pthread_t		philos;
 	uint64_t		tdie;
 	uint64_t		teat;
+	uint64_t		last_eat;
 	uint64_t		tsleep;
 	uint64_t		eat_max;
 	int				action;		//2 comer 1 dormir 0 pensar

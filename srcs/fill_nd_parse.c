@@ -22,7 +22,6 @@ void	parsing_argv(int argc, char **argv, t_dat *dat)
 	}
 	else
 		dat->eat_max = 0;
-		dat->eat_max = (uint64_t)ft_atol(argv[5]);
 	if (!isallnum(argv[1]) || !isallnum(argv[2])
 		|| !isallnum(argv[3]) || !isallnum(argv[4]))
 		print_exit("Error\nYou must use only integer numbers!");
