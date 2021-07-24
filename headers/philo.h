@@ -23,6 +23,12 @@
 # include <sys/time.h>
 # include <limits.h>
 
+# ifdef __APPLE__
+	;
+# else
+#  include "linux.h"
+# endif
+
 pthread_mutex_t *mtx;
 
 typedef struct s_ph
@@ -36,8 +42,8 @@ typedef struct s_ph
 	int				action;		//2 comer 1 dormir 0 pensar
 	int				lfork;
 	int				rfork;
-	pthread_mutex_t	llock;
-	pthread_mutex_t	rlock;
+	pthread_mutex_t *llfork;
+	pthread_mutex_t *rrfork;
 }					t_ph;
 
 typedef struct s_dat
@@ -49,7 +55,6 @@ typedef struct s_dat
 	uint64_t		tsleep;
 	unsigned int	eat_max;
 	t_ph			*philos;
-	pthread_mutex_t mtx;
 }					t_dat;
 
 /*

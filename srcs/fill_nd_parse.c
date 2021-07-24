@@ -45,8 +45,7 @@ void	fill_structs(t_dat *dat)
 	while (i < dat->total_ph)
 	{
 		pthread_mutex_init(&mtx[i], NULL);
-		pthread_mutex_unlock(&mtx[i]); 
-		dat->philos[i].philos = malloc(sizeof(pthread_t));
+		pthread_mutex_unlock(&mtx[i]);
 		dat->philos[i].ph_n = i + 1;
 		dat->philos[i].tdie = dat->tdie;
 		dat->philos[i].teat = dat->teat;
@@ -57,9 +56,8 @@ void	fill_structs(t_dat *dat)
 			dat->philos[i].rfork = dat->total_ph;
 		else
 			dat->philos[i].rfork = i - 1;
-		//pthread_mutex_init(&(dat->philos[i].llock), NULL);
-		//pthread_mutex_init(&(dat->philos[i].rlock), NULL);
+		dat->philos[i].llfork = &mtx[dat->philos[i].lfork];
+		dat->philos[i].rrfork = &mtx[dat->philos[i].rfork];
 		i++;
 	}
-	pthread_mutex_init(&(dat->mtx), NULL);
 }

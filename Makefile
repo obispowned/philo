@@ -23,6 +23,15 @@ GCC 			=	gcc
 CFLAGS			=	#-Wall -Wall -Werror
 
 #############################
+detected_OS := $(shell sh -c 'uname 2>/dev/null || echo Unknown')
+ifeq ($(detected_OS),Darwin)
+    INCLUDE = -I headers/philo.h
+endif
+ifeq ($(detected_OS),Linux)
+    INCLUDE = -I headers/philo.h headers/linux.h
+endif
+
+#############################
 RED 			= \033[0;31m
 PURPLE			= \033[0;35m
 GREEN			= \033[1;32m
