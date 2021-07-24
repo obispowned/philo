@@ -26,21 +26,22 @@ void	*take_fork(void *arg)
 	uint64_t aux_time;
 
 	philo = (t_ph *)arg;
-	while (1)
-	{
-		printf("yeyooo");
+
 	if (philo->ph_n == 1)
 	{
-		pthread_mutex_lock(philo->rrfork);
-		printf("philo %d has taken right fork(%d)", philo->ph_n, philo->rfork);
-		pthread_mutex_lock(philo->llfork);
-		printf("philo %d has taken left fork(%d) and begin to eat", philo->ph_n, philo->lfork);
+		//pthread_mutex_lock(philo->rrfork);
+		pthread_mutex_lock(&mtx[philo->rfork]);
+		printf("%sphilo %d has taken right fork(%d)\n", YELLOW, philo->ph_n, philo->rfork);
+		usleep(5);
+		//pthread_mutex_lock(philo->llfork);
+		pthread_mutex_lock(&mtx[philo->lfork]);
+		printf("%sphilo %d has taken left fork(%d) and begin to eat\n",YELLOW, philo->ph_n, philo->lfork);
 		if (philo->last_eat != 0)
 		{
 			aux_time = fire();
 			if ((aux_time - philo->last_eat) > philo->tdie)
 			{
-				printf("El filosofo %d ha muerto de hambre", philo->ph_n);
+				printf("%sPHILO %d IS DEAD\n\n", RED, philo->ph_n);
 				exit(0);
 			}
 
@@ -49,24 +50,29 @@ void	*take_fork(void *arg)
 		philo->eat_max++;
 		philo->last_eat = fire();
 		pthread_mutex_unlock(philo->rrfork);
-		printf("philo %d has left right fork(%d)", philo->ph_n, philo->rfork);
+		printf("%sphilo %d has left right fork(%d)\n",GREEN, philo->ph_n, philo->rfork);
+		usleep(5);
 		pthread_mutex_unlock(philo->llfork);
-		printf("philo %d has left left fork(%d)", philo->ph_n, philo->lfork);
+		printf("%sphilo %d has left left fork(%d)\n",GREEN, philo->ph_n, philo->lfork);
 		philo->last_eat = fire();
 	}
 	else
 	{
-		pthread_mutex_lock(philo->llfork);
-		printf("philo %d has taken left fork(%d)", philo->ph_n, philo->rfork);
-		pthread_mutex_lock(philo->rrfork);
-		printf("philo %d has taken right fork(%d) and begin to eat", philo->ph_n, philo->lfork);
+		
+		//pthread_mutex_lock(philo->llfork);
+		pthread_mutex_lock(&mtx[philo->lfork]);
+		printf("%sphilo %d has taken left fork(%d)\n",YELLOW, philo->ph_n, philo->lfork);
+		usleep(5);
+		//pthread_mutex_lock(philo->rrfork);
+		pthread_mutex_lock(&mtx[philo->rfork]);
+		printf("%sphilo %d has taken right fork(%d) and begin to eat\n",YELLOW, philo->ph_n, philo->rfork);
 		if (philo->last_eat != 0)
 		{
 			aux_time = fire();
 			if ((aux_time - philo->last_eat) > philo->tdie)
 			{
-				printf("El filosofo %d ha muerto de hambre", philo->ph_n);
-				break;
+				printf("%sPHILO %d IS DEAD\n\n", RED, philo->ph_n);
+				exit(0);
 			}
 
 		}
@@ -74,11 +80,11 @@ void	*take_fork(void *arg)
 		philo->eat_max++;
 		philo->last_eat = fire();
 		pthread_mutex_unlock(philo->llfork);
-		printf("philo %d has left left fork(%d)", philo->ph_n, philo->rfork);
+		printf("%sphilo %d has left left fork(%d)\n", GREEN, philo->ph_n, philo->lfork);
+		usleep(5);
 		pthread_mutex_unlock(philo->rrfork);
-		printf("philo %d has left right fork(%d)", philo->ph_n, philo->lfork);
+		printf("%sphilo %d has left right fork(%d)\n", GREEN,  philo->ph_n, philo->rfork);
 		philo->last_eat = fire();
-	}
 	}
 	return(NULL);
 }
@@ -125,9 +131,7 @@ int	main(int argc, char **argv)
 	parsing_argv(argc, argv, &dat);
 	fill_structs(&dat);
 	dat.begin = fireee();
-	printf("0");
 	create_threads(&dat);
-	printf("1");
 	run_threads(&dat);
 	free(mtx);
 }

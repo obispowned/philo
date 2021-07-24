@@ -29,6 +29,10 @@
 #  include "linux.h"
 # endif
 
+# define RED "\x1b[31m"
+# define GREEN "\x1b[32m"
+# define YELLOW "\x1b[33m"
+
 pthread_mutex_t *mtx;
 
 typedef struct s_ph
