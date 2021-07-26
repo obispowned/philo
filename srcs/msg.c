@@ -32,3 +32,8 @@ int		ret_error(char *str)
 	putstr(str);
 	return (0);
 }
+
+void	printer(char *color, int philo_n, int fork_n, char *msg)
+{
+	printf("%sPhilo [%d], %s (%d)\n", color, philo_n-1, msg, fork_n);
+}

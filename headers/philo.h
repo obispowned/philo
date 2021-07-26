@@ -76,6 +76,7 @@ int		isallnum(char *str);
 void	putstr(char *str);
 void	print_exit(char *str);
 int		ret_error(char *str);
+void	printer(char *color, int philo_n, int fork_n, char *msg);
 
 /*
 *  free.c
