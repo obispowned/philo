@@ -6,7 +6,7 @@
 /*   By: agutierr <agutierr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/19 19:02:17 by agutierr          #+#    #+#             */
-/*   Updated: 2021/08/04 17:57:56 by agutierr         ###   ########.fr       */
+/*   Updated: 2021/08/04 19:57:08 by agutierr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,6 +101,7 @@ void			turbofree(pthread_mutex_t *mtx, t_dat *dat);
 void			take_fork(t_ph *philo);
 uint64_t		time_to_eat(t_ph *philo);
 uint64_t		time_to_sleep(t_ph *philo);
+uint64_t		time_to_think(t_ph *philo);
 void			*rutine(void *arg);
 
 #endif
