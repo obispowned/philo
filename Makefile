@@ -6,7 +6,7 @@
 #    By: agutierr <agutierr@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/08/04 16:53:08 by agutierr          #+#    #+#              #
-#    Updated: 2021/08/04 16:53:12 by agutierr         ###   ########.fr        #
+#    Updated: 2021/08/04 17:09:36 by agutierr         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,17 +22,6 @@ OBJS 			=	$(SRCS:.c=.o)
 
 GCC 			=	gcc
 CFLAGS			=	-Wall -Wall -Werror -g
-
-
-#############################
-
-detected_OS := $(shell sh -c 'uname 2>/dev/null || echo Unknown')
-ifeq ($(detected_OS),Darwin)
-    INCLUDE = -I headers/philo.h
-endif
-ifeq ($(detected_OS),Linux)
-    INCLUDE = -pthread
-endif
 
 #############################
 RED 			= \033[0;31m
