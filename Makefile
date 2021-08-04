@@ -6,7 +6,7 @@
 #    By: agutierr <agutierr@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/08/04 16:53:08 by agutierr          #+#    #+#              #
-#    Updated: 2021/08/04 17:09:36 by agutierr         ###   ########.fr        #
+#    Updated: 2021/08/04 17:35:14 by agutierr         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,6 +17,7 @@ SRCS			=	main.c\
 					srcs/msg.c\
 					srcs/fill_nd_parse.c\
 					srcs/timers.c\
+					srcs/create_threads.c\
 
 OBJS 			=	$(SRCS:.c=.o)
 

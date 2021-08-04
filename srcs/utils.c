@@ -6,11 +6,11 @@
 /*   By: agutierr <agutierr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/19 19:53:59 by agutierr          #+#    #+#             */
-/*   Updated: 2021/07/20 15:53:21 by agutierr         ###   ########.fr       */
+/*   Updated: 2021/08/04 17:46:55 by agutierr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "../headers/philo.h"
+#include "../headers/philo.h"
 
 int	ft_atoi2(int sign)
 {
@@ -71,9 +71,9 @@ long long	ft_atol(const char *str)
 	return (num * neg);
 }
 
-int		isallnum(char *str)
+int	isallnum(char *str)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (str[i])

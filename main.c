@@ -6,27 +6,29 @@
 /*   By: agutierr <agutierr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/19 19:05:01 by agutierr          #+#    #+#             */
-/*   Updated: 2021/08/04 16:54:05 by agutierr         ###   ########.fr       */
+/*   Updated: 2021/08/04 17:45:47 by agutierr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "headers/philo.h"
+#include "headers/philo.h"
 
-void take_fork(t_ph *philo)
+void	take_fork(t_ph *philo)
 {
 	if (philo->ph_n == 1)
 	{
 		pthread_mutex_lock(philo->rrfork);
 		printer(YELLOW, philo->ph_n, philo->rfork, "TOOK left fork");
 		pthread_mutex_lock(philo->llfork);
-		printer(YELLOW, philo->ph_n, philo->lfork, "TOOK right fork and begin to eat");	
+		printer(YELLOW, philo->ph_n,
+			philo->lfork, "TOOK right fork and begin to eat");
 	}
 	else
 	{
 		pthread_mutex_lock(philo->llfork);
 		printer(YELLOW, philo->ph_n, philo->lfork, "TOOK left fork");
 		pthread_mutex_lock(philo->rrfork);
-		printer(YELLOW, philo->ph_n, philo->rfork, "TOOK right fork and begin to eat");
+		printer(YELLOW, philo->ph_n,
+			philo->rfork, "TOOK right fork and begin to eat");
 	}
 }
 
@@ -51,64 +53,41 @@ uint64_t	time_to_sleep(t_ph *philo)
 
 void	*rutine(void *arg)
 {
-	t_ph *philo;
-	uint64_t aux_time;
+	t_ph		*philo;
+	uint64_t	aux_time;
 
 	philo = (t_ph *)arg;
 	philo->last_eat = ft_time(0);
-	while(1)
+	while (1)
 	{
 		take_fork(philo);
 		aux_time = ft_time(0);
-		printf("filo[%u] va a comer ahora es : %llu, ultima comida: %llu\n", philo->ph_n, aux_time, philo->last_eat);
+		printf("filo[%u] va a comer ahora es : %llu, ultima comida: %llu\n",
+			philo->ph_n, aux_time, philo->last_eat);
 		if ((aux_time - philo->last_eat) > philo->tdie)
 		{
 			printer(RED, philo->ph_n, 999999999, "is dead");
-			exit(0);
+			exit (0);
 		}
 		philo->last_eat = ft_time(0);
 		time_to_eat(philo);
 		time_to_sleep(philo);
 	}
-	return(NULL);
-}
-
-void	create_threads(t_dat *dat)
-{
-	int	i;
-
-	i = 0;
-	while (i < dat->total_ph)
-	{
-		pthread_create(&(dat->philos[i].philos), NULL, rutine, &dat->philos[i]);
-		i++;
-	}
-}
-
-void	run_threads(t_dat *dat)
-{
-	int	i;
-
-	i = 0;
-	while (i < dat->total_ph)
-	{
-		pthread_join(dat->philos[i].philos, NULL);
-		i++;
-	}
+	return (NULL);
 }
 
 int	main(int argc, char **argv)
 {
-	t_dat dat;
+	t_dat			dat;
+	pthread_mutex_t	*mtx;
 
 	if (argc < 5 || argc > 6)
 		print_exit("Error\nNumero de argumentos invalido.");
 	parsing_argv(argc, argv, &dat);
-	fill_structs(&dat);
+	mtx = fill_structs(&dat);
 	dat.begin = start_clock();
 	create_threads(&dat);
 	run_threads(&dat);
-	free(mtx);
+	turbofree(mtx, &dat);
 	return (0);
 }
-

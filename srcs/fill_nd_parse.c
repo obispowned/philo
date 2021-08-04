@@ -6,11 +6,11 @@
 /*   By: agutierr <agutierr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/20 15:45:38 by agutierr          #+#    #+#             */
-/*   Updated: 2021/08/04 17:01:48 by agutierr         ###   ########.fr       */
+/*   Updated: 2021/08/04 17:50:04 by agutierr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "../headers/philo.h"
+#include "../headers/philo.h"
 
 void	parsing_argv(int argc, char **argv, t_dat *dat)
 {
@@ -33,14 +33,15 @@ void	parsing_argv(int argc, char **argv, t_dat *dat)
 		print_exit("Error\nBad arguments");
 }
 
-void	fill_structs(t_dat *dat)
+pthread_mutex_t	*fill_structs(t_dat *dat)
 {
-	int i;
+	int				i;
+	pthread_mutex_t	*mtx;
 
-	i = 0;
+	i = -1;
 	dat->philos = malloc(sizeof(t_ph) * dat->total_ph);
 	mtx = malloc(sizeof(pthread_mutex_t) * dat->total_ph);
-	while (i < dat->total_ph)
+	while (++i < dat->total_ph)
 	{
 		pthread_mutex_init(&mtx[i], NULL);
 		pthread_mutex_unlock(&mtx[i]);
@@ -52,11 +53,11 @@ void	fill_structs(t_dat *dat)
 		dat->philos[i].lfork = i;
 		dat->philos[i].last_eat = 0;
 		if (i == 0)
-			dat->philos[i].rfork = dat->total_ph -1;
+			dat->philos[i].rfork = dat->total_ph - 1;
 		else
 			dat->philos[i].rfork = i - 1;
 		dat->philos[i].llfork = &(mtx[dat->philos[i].lfork]);
 		dat->philos[i].rrfork = &(mtx[dat->philos[i].rfork]);
-		i++;
 	}
+	return (mtx);
 }

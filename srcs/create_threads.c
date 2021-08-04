@@ -1,42 +1,43 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   msg.c                                              :+:      :+:    :+:   */
+/*   create_threads.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: agutierr <agutierr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/08/04 16:53:19 by agutierr          #+#    #+#             */
-/*   Updated: 2021/08/04 17:54:45 by agutierr         ###   ########.fr       */
+/*   Created: 2021/08/04 17:32:55 by agutierr          #+#    #+#             */
+/*   Updated: 2021/08/04 17:48:34 by agutierr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../headers/philo.h"
 
-void	putstr(char *str)
+void	create_threads(t_dat *dat)
 {
-	while (*str)
+	int	i;
+
+	i = 0;
+	while (i < dat->total_ph)
 	{
-		write (1, str, 1);
-		str++;
+		pthread_create(&(dat->philos[i].philos), NULL, rutine, &dat->philos[i]);
+		i++;
 	}
 }
 
-void	print_exit(char *str)
+void	run_threads(t_dat *dat)
 {
-	putstr(str);
-	exit (0);
+	int	i;
+
+	i = 0;
+	while (i < dat->total_ph)
+	{
+		pthread_join(dat->philos[i].philos, NULL);
+		i++;
+	}
 }
 
-int	ret_error(char *str)
+void	turbofree(pthread_mutex_t *mtx, t_dat *dat)
 {
-	putstr(str);
-	return (0);
-}
-
-void	printer(char *color, int philo_n, int fork_n, char *msg)
-{
-	if (fork_n == 999999999)
-		printf("%sPhilo [%d] %s.\n", color, philo_n, msg);
-	else
-		printf("%sPhilo [%d] %s (%d)\n", color, philo_n, msg, fork_n);
+	free(mtx);
+	free(dat->philos);
 }
