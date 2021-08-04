@@ -35,5 +35,9 @@ int		ret_error(char *str)
 
 void	printer(char *color, int philo_n, int fork_n, char *msg)
 {
-	printf("%sPhilo [%d], %s (%d)\n", color, philo_n-1, msg, fork_n);
+	if (fork_n == 999999999)
+		printf("%sPhilo [%d] %s.\n", color, philo_n, msg);
+	else
+		printf("%sPhilo [%d] %s (%d)\n", color, philo_n, msg, fork_n);
+		
 }

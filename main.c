@@ -60,9 +60,7 @@ void take_fork(t_ph *philo)
 
 uint64_t	time_to_eat(t_ph *philo)
 {
-	struct timeval tv;
-
-	usleep(philo->teat * 100);
+	ft_usleep(philo->teat);
 	philo->eat_max++;
 	pthread_mutex_unlock(philo->rrfork);
 	printer(GREEN, philo->ph_n, philo->rfork, "PUT DOWN right fork");
@@ -73,40 +71,32 @@ uint64_t	time_to_eat(t_ph *philo)
 
 uint64_t	time_to_sleep(t_ph *philo)
 {
-	struct timeval tv;
-
 	printf("%sPhilo [%d] is sleeping zZ zZzZ\n", BLUE, philo->ph_n);
-	usleep(philo->tsleep * 100);
+	ft_usleep(philo->tsleep);
 	printf("%sPhilo [%d] is thinking...\n", CYAN, philo->ph_n);
+	return (0);
 }	
 
 void	*rutine(void *arg)
 {
 	t_ph *philo;
 	uint64_t aux_time;
-	uint64_t aux_time2;
-	struct timeval tv;
 
 	philo = (t_ph *)arg;
-	philo->last_eat = fireee();
+	philo->last_eat = ft_time(0);
 	while(1)
 	{
 		take_fork(philo);
-		aux_time = fireee();
+		aux_time = ft_time(0);
+		printf("filo[%u] va a comer ahora es : %llu, ultima comida: %llu\n", philo->ph_n, aux_time, philo->last_eat);
 		if ((aux_time - philo->last_eat) > philo->tdie)
 		{
-			printf("Philo %d is dead.\n", philo->ph_n);
+			printer(RED, philo->ph_n, 999999999, "is dead");
 			exit(0);
 		}
-		philo->last_eat = fireee();
-		printf("1:%llu\n", philo->last_eat);
-		usleep(10000);
-		philo->last_eat = fireee();
-		printf("2:%llu\n", philo->last_eat);
+		philo->last_eat = ft_time(0);
 		time_to_eat(philo);
 		time_to_sleep(philo);
-		break;
-		
 	}
 	return(NULL);
 }
@@ -143,9 +133,10 @@ int	main(int argc, char **argv)
 		print_exit("Error\nNumero de argumentos invalido.");
 	parsing_argv(argc, argv, &dat);
 	fill_structs(&dat);
-	dat.begin = fireee();
+	dat.begin = start_clock();
 	create_threads(&dat);
 	run_threads(&dat);
 	free(mtx);
+	return (0);
 }
 

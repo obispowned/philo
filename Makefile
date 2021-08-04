@@ -16,13 +16,16 @@ SRCS			=	main.c\
 					srcs/utils.c\
 					srcs/msg.c\
 					srcs/fill_nd_parse.c\
+					srcs/timers.c\
 
 OBJS 			=	$(SRCS:.c=.o)
 
 GCC 			=	gcc
-CFLAGS			=	#-Wall -Wall -Werror
+CFLAGS			=	-Wall -Wall -Werror -g
+
 
 #############################
+
 detected_OS := $(shell sh -c 'uname 2>/dev/null || echo Unknown')
 ifeq ($(detected_OS),Darwin)
     INCLUDE = -I headers/philo.h
@@ -37,6 +40,7 @@ PURPLE			= \033[0;35m
 GREEN			= \033[1;32m
 RESET			= \033[0m
 #############################
+
 
 all: $(NAME)
 

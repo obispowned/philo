@@ -93,4 +93,11 @@ void			ace(char *str, ...);
 void	parsing_argv(int argc, char **argv, t_dat *dat);
 void	fill_structs(t_dat *dat);
 
+/*
+**	timers.c
+*/
+void	ft_usleep(uint64_t miliseconds);
+uint64_t	ft_time(uint64_t start);
+uint64_t	start_clock(void);
+
 #endif
