@@ -12,7 +12,7 @@
 
 # include "headers/philo.h"
 
-uint64_t	fire(void)
+uint64_t	fireee()
 {
 	struct timeval	aux_clock;
 
@@ -40,11 +40,8 @@ void	current_time()
 
 }
 
-uint64_t	time_to_eat(t_ph *philo, uint64_t last_eat)
+void take_fork(t_ph *philo)
 {
-	struct timeval tv;
-	uint64_t time_eat;
-
 	if (philo->ph_n == 1)
 	{
 		pthread_mutex_lock(philo->rrfork);
@@ -59,47 +56,59 @@ uint64_t	time_to_eat(t_ph *philo, uint64_t last_eat)
 		pthread_mutex_lock(philo->rrfork);
 		printer(YELLOW, philo->ph_n, philo->rfork, "TOOK right fork and begin to eat");
 	}
-	gettimeofday(&tv, NULL);
-	time_eat = tv.tv_usec;
-	if ((time_eat - last_eat) > philo->tdie)
-	{
-		printf("Philo %d is dead.\n", philo->ph_n);
-		exit(0);
-	}
-	usleep(philo->teat);
+}
+
+uint64_t	time_to_eat(t_ph *philo)
+{
+	struct timeval tv;
+
+	usleep(philo->teat * 100);
 	philo->eat_max++;
 	pthread_mutex_unlock(philo->rrfork);
 	printer(GREEN, philo->ph_n, philo->rfork, "PUT DOWN right fork");
 	pthread_mutex_unlock(philo->llfork);
 	printer(GREEN, philo->ph_n, philo->lfork, "PUT DOWN left fork");
-	return(time_eat);
+	return (0);
 }
 
 uint64_t	time_to_sleep(t_ph *philo)
 {
 	struct timeval tv;
 
-	usleep(philo->tsleep);
-	gettimeofday(&tv, NULL);
-	return (tv.tv_usec);
+	printf("%sPhilo [%d] is sleeping zZ zZzZ\n", BLUE, philo->ph_n);
+	usleep(philo->tsleep * 100);
+	printf("%sPhilo [%d] is thinking...\n", CYAN, philo->ph_n);
 }	
 
-void	*take_fork(void *arg)
+void	*rutine(void *arg)
 {
 	t_ph *philo;
-	uint64_t begin;
 	uint64_t aux_time;
 	uint64_t aux_time2;
 	struct timeval tv;
 
-	gettimeofday(&tv, NULL);
-	begin = tv.tv_usec;
 	philo = (t_ph *)arg;
-	printf("||%llu-%llu-%llu||\n", philo->tdie, philo->teat, philo->tsleep);
-	aux_time = time_to_eat(philo, begin);
-	printf("filo %d begin %llu | eat %llu | diff %llu.\n", philo->ph_n, begin, aux_time, aux_time-begin );
-	aux_time2 = time_to_sleep(philo);
-	printf("eat %llu | sleep %llu | diff %llu.\n", aux_time, aux_time2, aux_time2-aux_time);
+	philo->last_eat = fireee();
+	while(1)
+	{
+		take_fork(philo);
+		aux_time = fireee();
+		if ((aux_time - philo->last_eat) > philo->tdie)
+		{
+			printf("Philo %d is dead.\n", philo->ph_n);
+			exit(0);
+		}
+		philo->last_eat = fireee();
+		printf("1:%llu\n", philo->last_eat);
+		usleep(10000);
+		philo->last_eat = fireee();
+		printf("2:%llu\n", philo->last_eat);
+		time_to_eat(philo);
+		time_to_sleep(philo);
+		break;
+		
+	}
+	return(NULL);
 }
 
 void	create_threads(t_dat *dat)
@@ -109,7 +118,7 @@ void	create_threads(t_dat *dat)
 	i = 0;
 	while (i < dat->total_ph)
 	{
-		pthread_create(&(dat->philos[i].philos), NULL, take_fork, &dat->philos[i]);
+		pthread_create(&(dat->philos[i].philos), NULL, rutine, &dat->philos[i]);
 		i++;
 	}
 }
@@ -126,15 +135,6 @@ void	run_threads(t_dat *dat)
 	}
 }
 
-
-uint64_t	fireee()
-{
-	struct timeval	aux_clock;
-
-	gettimeofday(&aux_clock, NULL);
-	return ((uint64_t)((aux_clock.tv_usec / 1000)) + (aux_clock.tv_sec * 1000));
-}
-
 int	main(int argc, char **argv)
 {
 	t_dat dat;
@@ -145,9 +145,7 @@ int	main(int argc, char **argv)
 	fill_structs(&dat);
 	dat.begin = fireee();
 	create_threads(&dat);
-	current_time();
 	run_threads(&dat);
-	current_time();
 	free(mtx);
 }
 
