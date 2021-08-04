@@ -6,7 +6,7 @@
 /*   By: agutierr <agutierr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/19 19:02:17 by agutierr          #+#    #+#             */
-/*   Updated: 2021/07/20 18:04:35 by agutierr         ###   ########.fr       */
+/*   Updated: 2021/08/04 17:06:04 by agutierr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,9 +24,9 @@
 # include <limits.h>
 
 # ifdef __APPLE__
-	;
+;
 # else
-#  include "linux.h"
+	# include "linux.h"
 # endif
 
 # define RED "\x1b[31m"
