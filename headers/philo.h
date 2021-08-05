@@ -6,7 +6,7 @@
 /*   By: agutierr <agutierr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/19 19:02:17 by agutierr          #+#    #+#             */
-/*   Updated: 2021/08/04 19:57:08 by agutierr         ###   ########.fr       */
+/*   Updated: 2021/08/05 19:00:12 by agutierr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@
 # define BLUE "\x1b[34m"
 # define MAGENTA "\x1b[35m"
 # define CYAN "\x1b[36m"
+# define WHITE "\x1b[37m"
 
 typedef struct s_ph
 {
@@ -38,6 +39,8 @@ typedef struct s_ph
 	uint64_t		teat;
 	uint64_t		last_eat;
 	uint64_t		tsleep;
+	uint64_t		start;
+	int				caronte_comes;
 	uint64_t		eat_max;
 	int				lfork;
 	int				rfork;

@@ -6,7 +6,7 @@
 /*   By: agutierr <agutierr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/20 15:45:38 by agutierr          #+#    #+#             */
-/*   Updated: 2021/08/04 17:50:04 by agutierr         ###   ########.fr       */
+/*   Updated: 2021/08/05 19:01:50 by agutierr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,7 @@ pthread_mutex_t	*fill_structs(t_dat *dat)
 		dat->philos[i].eat_max = dat->eat_max;
 		dat->philos[i].lfork = i;
 		dat->philos[i].last_eat = 0;
+		dat->philos[i].caronte_comes = 0;
 		if (i == 0)
 			dat->philos[i].rfork = dat->total_ph - 1;
 		else

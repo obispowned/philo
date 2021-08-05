@@ -6,7 +6,7 @@
 /*   By: agutierr <agutierr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/04 16:53:19 by agutierr          #+#    #+#             */
-/*   Updated: 2021/08/04 17:54:45 by agutierr         ###   ########.fr       */
+/*   Updated: 2021/08/05 18:20:04 by agutierr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ int	ret_error(char *str)
 void	printer(char *color, int philo_n, int fork_n, char *msg)
 {
 	if (fork_n == 999999999)
-		printf("%sPhilo [%d] %s.\n", color, philo_n, msg);
+		printf("%s(%d) %s.\n", color, philo_n, msg);
 	else
-		printf("%sPhilo [%d] %s (%d)\n", color, philo_n, msg, fork_n);
+		printf("%s(%d) %s (%d)\n", color, philo_n, msg, fork_n);
 }

@@ -6,7 +6,7 @@
 /*   By: agutierr <agutierr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/04 17:32:55 by agutierr          #+#    #+#             */
-/*   Updated: 2021/08/04 17:48:34 by agutierr         ###   ########.fr       */
+/*   Updated: 2021/08/05 18:30:36 by agutierr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ void	create_threads(t_dat *dat)
 	i = 0;
 	while (i < dat->total_ph)
 	{
+		(dat->philos[i]).start = dat->begin;
 		pthread_create(&(dat->philos[i].philos), NULL, rutine, &dat->philos[i]);
 		i++;
 	}

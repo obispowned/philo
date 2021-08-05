@@ -6,56 +6,44 @@
 /*   By: agutierr <agutierr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/19 19:05:01 by agutierr          #+#    #+#             */
-/*   Updated: 2021/08/04 20:00:18 by agutierr         ###   ########.fr       */
+/*   Updated: 2021/08/05 19:37:45 by agutierr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "headers/philo.h"
 
 void	take_fork(t_ph *philo)
-{
-	uint64_t timer;
-	
+{	
 	if (philo->ph_n == 1)
 	{
 		pthread_mutex_lock(philo->rrfork);
-		timer = ft_time(0);
-		printf("%s|%llu|", CYAN, timer);
-		printer(YELLOW, philo->ph_n, philo->rfork, "TOOK right fork");
+		printf("%s|%llu ms| ", CYAN, ft_time(0) - philo->start);
+		printer(YELLOW, philo->ph_n, philo->rfork, "has taken right fork");
 		pthread_mutex_lock(philo->llfork);
-		timer = ft_time(0);
-		printf("%s|%llu|", CYAN, timer);
+		printf("%s|%llu ms| ", CYAN, ft_time(0) - philo->start);
 		printer(YELLOW, philo->ph_n,
-			philo->lfork, "TOOK left fork and begin to eat");
+			philo->lfork, "has taken left fork");
 	}
 	else
 	{
 		pthread_mutex_lock(philo->llfork);
-		timer = ft_time(0);
-		printf("%s|%llu|", CYAN, timer);
-		printer(YELLOW, philo->ph_n, philo->lfork, "TOOK left fork");
+		printf("%s|%llu ms| ", CYAN, ft_time(0) - philo->start);
+		printer(YELLOW, philo->ph_n, philo->lfork, "has taken left fork");
 		pthread_mutex_lock(philo->rrfork);
-		timer = ft_time(0);
-		printf("%s|%llu|", CYAN, timer);
+		printf("%s|%llu ms| ", CYAN, ft_time(0) - philo->start);
 		printer(YELLOW, philo->ph_n,
-			philo->rfork, "TOOK right fork and begin to eat");
+			philo->rfork, "has taken right fork");
 	}
 }
 
 uint64_t	time_to_eat(t_ph *philo)
 {
-	uint64_t timer;
-		
+	printf("%s|%llu ms| ", CYAN, ft_time(0) - philo->start);
+	printer(GREEN, philo->ph_n, 999999999, "eats...");
 	ft_usleep(philo->teat);
 	philo->eat_max++;
 	pthread_mutex_unlock(philo->rrfork);
-	timer = ft_time(0);
-	printf("%s|%llu|", CYAN, timer);
-	printer(GREEN, philo->ph_n, philo->rfork, "PUT DOWN right fork");
 	pthread_mutex_unlock(philo->llfork);
-	timer = ft_time(0);
-	printf("%s|%llu|", CYAN, timer);
-	printer(GREEN, philo->ph_n, philo->lfork, "PUT DOWN left fork");
 	return (0);
 }
 
@@ -64,19 +52,17 @@ uint64_t	time_to_sleep(t_ph *philo)
 	uint64_t timer;
 	
 	timer = ft_time(0);
-	printf("%s|%llu|", CYAN, timer);
-	printf("%sPhilo [%d] is sleeping zZ zZzZ\n", BLUE, philo->ph_n);
+	printf("%s|%llu ms| ", CYAN, ft_time(0) - philo->start);
+	printf("%s(%d) is sleeping zZ zZzZ\n", MAGENTA, philo->ph_n);
 	ft_usleep(philo->tsleep);
 	return (0);
 }	
 
 uint64_t	time_to_think(t_ph *philo)
 {
-	uint64_t timer;
-	
-	timer = ft_time(0);
-	printf("%s|%llu|", CYAN, timer);
-	printf("%sPhilo [%d] is thinking...\n", MAGENTA, philo->ph_n);
+	printf("%s|%llu ms| ", CYAN, ft_time(0) - philo->start);
+	printf("%s(%d) is thinking...\n", WHITE, philo->ph_n);
+	//ft_usleep(1);
 	return (0);
 }	
 
@@ -90,21 +76,33 @@ void	*rutine(void *arg)
 	philo->last_eat = ft_time(0);
 	while (1)
 	{
-		take_fork(philo);
+		if (philo->caronte_comes == 1)
+			take_fork(philo);
+		else
+		{
+			ft_usleep(1);
+			take_fork(philo);
+		}
 		aux_time = ft_time(0);
-		printf("filo[%u] va a comer ahora es : %llu, ultima comida: %llu\n",
-			philo->ph_n, aux_time, philo->last_eat);
 		if ((aux_time - philo->last_eat) > philo->tdie)
 		{
 			timer = ft_time(0);
-			printf("%s|%llu|", CYAN, timer);
+			printf("%s|%llu ms| ", CYAN, timer - philo->start);
 			printer(RED, philo->ph_n, 999999999, "is dead");
 			exit (0);
 		}
 		philo->last_eat = ft_time(0);
+		philo->caronte_comes = 0;
 		time_to_eat(philo);
 		time_to_sleep(philo);
 		time_to_think(philo);
+		if ((ft_time(0) - philo->last_eat) >= philo->tdie / 2)
+		{
+			philo->caronte_comes = 1;
+			printer(RED, philo->ph_n, 999999999, "Caronte en su canoa esta en camino a por tu alma");
+		}
+		else
+			ft_usleep(1);
 	}
 	return (NULL);
 }
