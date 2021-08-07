@@ -6,7 +6,7 @@
 /*   By: agutierr <agutierr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/19 19:02:17 by agutierr          #+#    #+#             */
-/*   Updated: 2021/08/07 17:27:53 by agutierr         ###   ########.fr       */
+/*   Updated: 2021/08/07 20:56:16 by agutierr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,8 @@ typedef struct s_ph
 	uint64_t		tsleep;
 	uint64_t		start;
 	int				caronte_comes;
-	uint64_t		eat_max;
+	int				eat_count;
+	int				total_eats;
 	int				lfork;
 	int				rfork;
 	pthread_mutex_t	*llfork;
@@ -56,7 +57,7 @@ typedef struct s_dat
 	uint64_t		tdie;
 	uint64_t		teat;
 	uint64_t		tsleep;
-	unsigned int	eat_max;
+	unsigned int	total_eats;
 	t_ph			*philos;
 }					t_dat;
 

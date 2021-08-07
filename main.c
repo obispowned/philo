@@ -6,7 +6,7 @@
 /*   By: agutierr <agutierr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/19 19:05:01 by agutierr          #+#    #+#             */
-/*   Updated: 2021/08/07 17:54:01 by agutierr         ###   ########.fr       */
+/*   Updated: 2021/08/07 21:26:31 by agutierr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ uint64_t	time_to_eat(t_ph *philo)
 	printf("%s| %-8llu ms | ", CYAN, ft_time(0) - philo->start);
 	printer(GREEN, philo->ph_n, 999999999, "eats...");
 	ft_usleep(philo->teat);
-	philo->eat_max++;
+	philo->eat_count++;
 	pthread_mutex_unlock(philo->rrfork);
 	pthread_mutex_unlock(philo->llfork);
 	return (0);
@@ -75,14 +75,24 @@ void	*rutine(void *arg)
 	philo->last_eat = ft_time(0);
 	while (1)
 	{
-		if ((philo->ph_n % 2 == 0) && (philo->eat_max == 0))
-			take_fork(philo);
-		else
+		if (((ft_time(0) - philo->last_eat) <= philo->tdie / 2) && philo->eat_count > 0)
 		{
-			if (philo->eat_max == 0)
-				ft_usleep(philo->teat);
+			philo->caronte_comes = 1;
+			printer(RED, philo->ph_n, 999999999, "Caronte en su canoa esta en camino a por tu alma");
+		}
+		if (philo->eat_count == 0)
+			take_fork(philo);
+		else if (philo->caronte_comes == 1)
+		{
+			ft_usleep(0);
 			take_fork(philo);
 		}
+		else
+		{
+			ft_usleep(0);
+			take_fork(philo);
+		}
+		
 		aux_time = ft_time(0);
 		if ((aux_time - philo->last_eat) >= philo->tdie)
 		{
@@ -94,9 +104,15 @@ void	*rutine(void *arg)
 		philo->last_eat = ft_time(0);
 		philo->caronte_comes = 0;
 		time_to_eat(philo);
+		if (philo->eat_count == philo->total_eats)
+		{
+			printf("philo %d, count %d, total_eat: %d ", philo->ph_n, philo->eat_count, philo->total_eats);
+			print_exit("Se acabó la comida.\n");
+		}
 		time_to_sleep(philo);
 		time_to_think(philo);
-		if ((ft_time(0) - philo->last_eat) >= philo->tdie / 2)
+		//printf("\n\n%llu\n\n", (ft_time(0) - philo->last_eat));
+		if ((ft_time(0) - philo->last_eat) <= philo->tdie / 2)
 		{
 			philo->caronte_comes = 1;
 			printer(RED, philo->ph_n, 999999999, "Caronte en su canoa esta en camino a por tu alma");
