@@ -6,7 +6,7 @@
 /*   By: agutierr <agutierr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/19 19:02:17 by agutierr          #+#    #+#             */
-/*   Updated: 2021/08/05 19:00:12 by agutierr         ###   ########.fr       */
+/*   Updated: 2021/08/07 17:27:53 by agutierr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@
 
 typedef struct s_ph
 {
+	unsigned int	total_ph;
 	unsigned int	ph_n;
 	pthread_t		philos;
 	uint64_t		tdie;
