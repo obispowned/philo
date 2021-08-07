@@ -6,7 +6,7 @@
 /*   By: agutierr <agutierr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/19 19:05:01 by agutierr          #+#    #+#             */
-/*   Updated: 2021/08/07 21:26:31 by agutierr         ###   ########.fr       */
+/*   Updated: 2021/08/07 21:48:13 by agutierr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ uint64_t	time_to_eat(t_ph *philo)
 	printf("%s| %-8llu ms | ", CYAN, ft_time(0) - philo->start);
 	printer(GREEN, philo->ph_n, 999999999, "eats...");
 	ft_usleep(philo->teat);
-	philo->eat_count++;
+	philo->eat_count++; 
 	pthread_mutex_unlock(philo->rrfork);
 	pthread_mutex_unlock(philo->llfork);
 	return (0);
