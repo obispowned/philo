@@ -6,7 +6,7 @@
 /*   By: agutierr <agutierr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/19 19:05:01 by agutierr          #+#    #+#             */
-/*   Updated: 2021/08/08 19:13:54 by agutierr         ###   ########.fr       */
+/*   Updated: 2021/08/08 21:30:10 by agutierr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,26 +14,29 @@
 
 void	take_fork(t_ph *philo)
 {	
-	/*if (philo->ph_n == philo->total_ph)
-	{*/
-		pthread_mutex_lock(philo->rrfork);
-		printf("%s| %-8llu ms | ", CYAN, ft_time(0) - philo->start);
-		printer(YELLOW, philo->ph_n, philo->rfork, "has taken right fork");
-		pthread_mutex_lock(philo->llfork);
-		printf("%s| %-8llu ms | ", CYAN, ft_time(0) - philo->start);
-		printer(YELLOW, philo->ph_n,
-			philo->lfork, "has taken left fork");
-	/*}
+	if (philo->total_ph % 2 == 0)
+	{
+		while (philo->ph_n % 2 == 0 && *(philo->phase_num) != 0)
+			;
+		while ((philo->ph_n % 2 != 0) && (*(philo->phase_num) != 1))
+			;
+	}
 	else
 	{
-		pthread_mutex_lock(philo->llfork);
-		printf("%s| %-8llu ms | ", CYAN, ft_time(0) - philo->start);
-		printer(YELLOW, philo->ph_n, philo->lfork, "has taken left fork");
-		pthread_mutex_lock(philo->rrfork);
-		printf("%s| %-8llu ms | ", CYAN, ft_time(0) - philo->start);
-		printer(YELLOW, philo->ph_n,
-			philo->rfork, "has taken right fork");
-	}*/
+		while (philo->ph_n % 2 == 0 && ((*(philo->phase_num)) != 0))
+			;
+		while ((philo->ph_n % 2 != 0) && (philo->ph_n != philo->total_ph) && (*(philo->phase_num) != 1))
+			;
+		while ((philo->ph_n == philo->total_ph) && (*(philo->phase_num) != 2))
+			;
+	}
+	pthread_mutex_lock(philo->llfork);
+	printf("%s| %-8llu ms | ", CYAN, ft_time(0) - philo->start);
+	printer(YELLOW, philo->ph_n, philo->lfork, "has taken left fork");
+	pthread_mutex_lock(philo->rrfork);
+	printf("%s| %-8llu ms | ", CYAN, ft_time(0) - philo->start);
+	printer(YELLOW, philo->ph_n,
+		philo->rfork, "has taken right fork");
 }
 
 uint64_t	time_to_eat(t_ph *philo)
@@ -44,6 +47,14 @@ uint64_t	time_to_eat(t_ph *philo)
 	philo->eat_count++; 
 	pthread_mutex_unlock(philo->rrfork);
 	pthread_mutex_unlock(philo->llfork);
+	if (philo->ph_n % 2 == 0)
+		*(philo->phase_num) = 1;
+	else if ((philo->ph_n % 2 != 0) && philo->total_ph % 2 == 0)
+		*(philo->phase_num) = 0;
+	else if ((philo->ph_n % 2 != 0) && (philo->ph_n != philo->total_ph) && philo->total_ph % 2 != 0)
+		*(philo->phase_num) = 2;
+	else if ((philo->ph_n == philo->total_ph) && (philo->total_ph % 2 != 0))
+		*(philo->phase_num) = 0;
 	return (0);
 }
 
@@ -61,7 +72,7 @@ uint64_t	time_to_sleep(t_ph *philo)
 uint64_t	time_to_think(t_ph *philo)
 {
 	printf("%s| %-8llu ms | ", CYAN, ft_time(0) - philo->start);
-	printf("%s(%d) is thinking...\n", WHITE, philo->ph_n);
+	printf("%s(%d) is thinking... var: %d\n", WHITE, philo->ph_n, *(philo->phase_num));
 	return (0);
 }	
 
@@ -73,18 +84,20 @@ void	*rutine(void *arg)
 
 	philo = (t_ph *)arg;
 	philo->last_eat = ft_time(0);
-	if (philo->ph_n % 2 == 0 || philo->ph_n == philo->total_ph) //implementacion kevin
-		usleep(philo->teat);									//implementacion kevin
+	/*if (philo->ph_n % 2 == 0 || philo->ph_n == philo->total_ph) //implementacion kevin
+	{	
+		printf("pasa por aqui %d\n", philo->ph_n);
+		ft_usleep(philo->teat);									//implementacion kevin
+	}*/
 	while (1)
 	{
-		if ((ft_time(0) - philo->last_eat) <= philo->tdie / 2)
-		{
-			philo->caronte_comes = 1;
-			printer(RED, philo->ph_n, 999999999, "Caronte en su canoa esta en camino a por tu alma");
-		}
-		if (philo->eat_count == 0)
+		if (philo->caronte_comes == 1 || philo->eat_count == 0)
 			take_fork(philo);
-		else if (philo->caronte_comes == 1)
+		else if (philo->ph_n % 2 == 0)
+			take_fork(philo);
+		else if (philo->ph_n % 2 != 0 && philo->ph_n != philo->total_ph)
+			take_fork(philo);
+		else if (philo->ph_n == philo->total_ph)
 			take_fork(philo);
 		else
 		{

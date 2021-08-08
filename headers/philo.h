@@ -6,7 +6,7 @@
 /*   By: agutierr <agutierr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/19 19:02:17 by agutierr          #+#    #+#             */
-/*   Updated: 2021/08/07 20:56:16 by agutierr         ###   ########.fr       */
+/*   Updated: 2021/08/08 20:45:42 by agutierr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,7 @@ typedef struct s_ph
 	int				rfork;
 	pthread_mutex_t	*llfork;
 	pthread_mutex_t	*rrfork;
+	int				*phase_num;  //par lo pone a 1, impar a 2
 }					t_ph;
 
 typedef struct s_dat
@@ -58,6 +59,7 @@ typedef struct s_dat
 	uint64_t		teat;
 	uint64_t		tsleep;
 	unsigned int	total_eats;
+	int				phase;
 	t_ph			*philos;
 }					t_dat;
 
