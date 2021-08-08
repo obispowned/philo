@@ -6,7 +6,7 @@
 /*   By: agutierr <agutierr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/19 19:05:01 by agutierr          #+#    #+#             */
-/*   Updated: 2021/08/08 18:05:06 by agutierr         ###   ########.fr       */
+/*   Updated: 2021/08/08 19:13:54 by agutierr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 
 void	take_fork(t_ph *philo)
 {	
-	if (philo->ph_n == philo->total_ph)
-	{
+	/*if (philo->ph_n == philo->total_ph)
+	{*/
 		pthread_mutex_lock(philo->rrfork);
 		printf("%s| %-8llu ms | ", CYAN, ft_time(0) - philo->start);
 		printer(YELLOW, philo->ph_n, philo->rfork, "has taken right fork");
@@ -23,7 +23,7 @@ void	take_fork(t_ph *philo)
 		printf("%s| %-8llu ms | ", CYAN, ft_time(0) - philo->start);
 		printer(YELLOW, philo->ph_n,
 			philo->lfork, "has taken left fork");
-	}
+	/*}
 	else
 	{
 		pthread_mutex_lock(philo->llfork);
@@ -33,7 +33,7 @@ void	take_fork(t_ph *philo)
 		printf("%s| %-8llu ms | ", CYAN, ft_time(0) - philo->start);
 		printer(YELLOW, philo->ph_n,
 			philo->rfork, "has taken right fork");
-	}
+	}*/
 }
 
 uint64_t	time_to_eat(t_ph *philo)
@@ -73,9 +73,11 @@ void	*rutine(void *arg)
 
 	philo = (t_ph *)arg;
 	philo->last_eat = ft_time(0);
+	if (philo->ph_n % 2 == 0 || philo->ph_n == philo->total_ph) //implementacion kevin
+		usleep(philo->teat);									//implementacion kevin
 	while (1)
 	{
-		if (((ft_time(0) - philo->last_eat) <= philo->tdie / 2) && philo->eat_count > 0)
+		if ((ft_time(0) - philo->last_eat) <= philo->tdie / 2)
 		{
 			philo->caronte_comes = 1;
 			printer(RED, philo->ph_n, 999999999, "Caronte en su canoa esta en camino a por tu alma");
