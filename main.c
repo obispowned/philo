@@ -6,7 +6,7 @@
 /*   By: agutierr <agutierr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/19 19:05:01 by agutierr          #+#    #+#             */
-/*   Updated: 2021/08/07 21:48:13 by agutierr         ###   ########.fr       */
+/*   Updated: 2021/08/08 18:05:06 by agutierr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,16 +83,12 @@ void	*rutine(void *arg)
 		if (philo->eat_count == 0)
 			take_fork(philo);
 		else if (philo->caronte_comes == 1)
-		{
-			ft_usleep(0);
 			take_fork(philo);
-		}
 		else
 		{
 			ft_usleep(0);
 			take_fork(philo);
 		}
-		
 		aux_time = ft_time(0);
 		if ((aux_time - philo->last_eat) >= philo->tdie)
 		{
