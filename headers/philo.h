@@ -6,7 +6,7 @@
 /*   By: agutierr <agutierr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/19 19:02:17 by agutierr          #+#    #+#             */
-/*   Updated: 2021/08/09 19:18:30 by agutierr         ###   ########.fr       */
+/*   Updated: 2021/08/09 20:44:52 by agutierr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,5 +109,11 @@ uint64_t		time_to_eat(t_ph *philo);
 uint64_t		time_to_sleep(t_ph *philo);
 uint64_t		time_to_think(t_ph *philo);
 void			*rutine(void *arg);
+
+void			caronte_comes(t_ph *philo);
+void			max_eats_check(t_ph *philo);
+void			dead_check(t_ph *philo, uint64_t	aux_time);
+void			take_fork(t_ph *philo);
+void			take_fork_prior(t_ph *philo);
 
 #endif

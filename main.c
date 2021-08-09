@@ -6,42 +6,18 @@
 /*   By: agutierr <agutierr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/19 19:05:01 by agutierr          #+#    #+#             */
-/*   Updated: 2021/08/09 19:22:05 by agutierr         ###   ########.fr       */
+/*   Updated: 2021/08/09 20:43:32 by agutierr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "headers/philo.h"
-
-void	take_fork(t_ph *philo)
-{	
-	if (philo->ph_n == philo->total_ph)
-	{
-		pthread_mutex_lock(philo->rrfork);
-		printf("%s| %-8llu ms | ", CYAN, ft_time(0) - philo->start);
-		printer(YELLOW, philo->ph_n, philo->rfork, "has taken right fork");
-		pthread_mutex_lock(philo->llfork);
-		printf("%s| %-8llu ms | ", CYAN, ft_time(0) - philo->start);
-		printer(YELLOW, philo->ph_n,
-			philo->lfork, "has taken left fork");
-	}
-	else
-	{
-		pthread_mutex_lock(philo->llfork);
-		printf("%s| %-8llu ms | ", CYAN, ft_time(0) - philo->start);
-		printer(YELLOW, philo->ph_n, philo->lfork, "has taken left fork");
-		pthread_mutex_lock(philo->rrfork);
-		printf("%s| %-8llu ms | ", CYAN, ft_time(0) - philo->start);
-		printer(YELLOW, philo->ph_n,
-			philo->rfork, "has taken right fork");
-	}
-}
 
 uint64_t	time_to_eat(t_ph *philo)
 {
 	printf("%s| %-8llu ms | ", CYAN, ft_time(0) - philo->start);
 	printer(GREEN, philo->ph_n, 999999999, "eats...");
 	ft_usleep(philo->teat);
-	philo->eat_count++; 
+	philo->eat_count++;
 	pthread_mutex_unlock(philo->rrfork);
 	pthread_mutex_unlock(philo->llfork);
 	return (0);
@@ -49,8 +25,8 @@ uint64_t	time_to_eat(t_ph *philo)
 
 uint64_t	time_to_sleep(t_ph *philo)
 {
-	uint64_t timer;
-	
+	uint64_t	timer;
+
 	timer = ft_time(0);
 	printf("%s| %-8llu ms | ", CYAN, ft_time(0) - philo->start);
 	printf("%s(%d) is sleeping zZ zZzZ\n", MAGENTA, philo->ph_n);
@@ -65,42 +41,6 @@ uint64_t	time_to_think(t_ph *philo)
 	return (0);
 }	
 
-void	caronte_comes(t_ph *philo)
-{
-	if ((ft_time(0) - philo->last_eat) <= philo->tdie / 2)
-	{
-		philo->caronte_comes = 1;
-		printer(RED, philo->ph_n, 999999999, "Caronte en su canoa esta en camino a por tu alma");
-	}
-	else
-		ft_usleep(0);
-}
-
-void max_eats_check(t_ph *philo)
-{
-	if (philo->eat_count == philo->total_eats)
-	{
-		printf("philo %d, count %d, total_eat: %d ", philo->ph_n, philo->eat_count, philo->total_eats);
-		print_exit("Se acabó la comida.\n");
-	}
-}
-
-void	dead_check(t_ph *philo, uint64_t	aux_time)
-{
-	uint64_t	timer;
-	
-	pthread_mutex_lock(philo->deadmtx);
-	if ((aux_time - philo->last_eat) >= philo->tdie)
-	{
-		timer = ft_time(0);
-		printf("%s| %-8llu ms | ", CYAN, ft_time(0) - philo->start);
-		printer(RED, philo->ph_n, 999999999, "is dead");
-		exit (0);
-	}
-	else
-		pthread_mutex_unlock(philo->deadmtx);
-}
-
 void	*rutine(void *arg)
 {
 	t_ph		*philo;
@@ -112,32 +52,15 @@ void	*rutine(void *arg)
 		ft_usleep(philo->teat);
 	while (1)
 	{
-		if (((ft_time(0) - philo->last_eat) <= philo->tdie / 2) && philo->eat_count > 0)
-		{
-			philo->caronte_comes = 1;
-			printer(RED, philo->ph_n, 999999999, "Caronte en su canoa esta en camino a por tu alma");
-		}
-		if (philo->eat_count == 0)
-			take_fork(philo);
-		else if (philo->caronte_comes == 1)
-		{
-			ft_usleep(0);
-			take_fork(philo);
-		}
-		else
-		{
-			ft_usleep(0);
-			take_fork(philo);
-		}
+		take_fork_prior(philo);
 		aux_time = ft_time(0);
 		dead_check(philo, aux_time);
-		philo->last_eat = ft_time(0);
 		philo->caronte_comes = 0;
+		philo->last_eat = ft_time(0);
 		time_to_eat(philo);
 		max_eats_check(philo);
 		time_to_sleep(philo);
 		time_to_think(philo);
-		//printf("\n\n%llu\n\n", (ft_time(0) - philo->last_eat));
 		caronte_comes(philo);
 	}
 	return (NULL);

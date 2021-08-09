@@ -6,7 +6,7 @@
 #    By: agutierr <agutierr@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/08/04 16:53:08 by agutierr          #+#    #+#              #
-#    Updated: 2021/08/04 17:35:14 by agutierr         ###   ########.fr        #
+#    Updated: 2021/08/09 20:39:10 by agutierr         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,8 +18,10 @@ SRCS			=	main.c\
 					srcs/fill_nd_parse.c\
 					srcs/timers.c\
 					srcs/create_threads.c\
+					srcs/utils_rutine.c\
 
 OBJS 			=	$(SRCS:.c=.o)
+
 
 GCC 			=	gcc
 CFLAGS			=	-Wall -Wall -Werror -g

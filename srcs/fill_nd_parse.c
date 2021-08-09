@@ -6,7 +6,7 @@
 /*   By: agutierr <agutierr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/20 15:45:38 by agutierr          #+#    #+#             */
-/*   Updated: 2021/08/09 19:18:49 by agutierr         ###   ########.fr       */
+/*   Updated: 2021/08/09 20:12:39 by agutierr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,20 @@ void	parsing_argv(int argc, char **argv, t_dat *dat)
 		print_exit("Error\nBad arguments");
 }
 
+void	fill_structs2(t_dat *dat, int i)
+{
+	dat->philos[i].ph_n = i + 1;
+	dat->philos[i].tdie = dat->tdie;
+	dat->philos[i].teat = dat->teat;
+	dat->philos[i].tsleep = dat->tsleep;
+	dat->philos[i].eat_count = 0;
+	dat->philos[i].lfork = i + 1;
+	dat->philos[i].total_eats = dat->total_eats;
+	dat->philos[i].last_eat = 0;
+	dat->philos[i].caronte_comes = 0;
+	dat->philos[i].total_ph = dat->total_ph;
+}
+
 pthread_mutex_t	*fill_structs(t_dat *dat)
 {
 	int				i;
@@ -48,20 +62,11 @@ pthread_mutex_t	*fill_structs(t_dat *dat)
 	{
 		pthread_mutex_init(&mtx[i], NULL);
 		pthread_mutex_unlock(&mtx[i]);
-		dat->philos[i].ph_n = i + 1;
-		dat->philos[i].tdie = dat->tdie;
-		dat->philos[i].teat = dat->teat;
-		dat->philos[i].tsleep = dat->tsleep;
-		dat->philos[i].eat_count = 0;
-		dat->philos[i].lfork = i;
-		dat->philos[i].total_eats = dat->total_eats;
-		dat->philos[i].last_eat = 0;
-		dat->philos[i].caronte_comes = 0;
-		dat->philos[i].total_ph = dat->total_ph;
+		fill_structs2(dat, i);
 		if (i == 0)
-			dat->philos[i].rfork = dat->total_ph - 1;
+			dat->philos[i].rfork = dat->total_ph;
 		else
-			dat->philos[i].rfork = i - 1;
+			dat->philos[i].rfork = i;
 		dat->philos[i].llfork = &(mtx[dat->philos[i].lfork]);
 		dat->philos[i].rrfork = &(mtx[dat->philos[i].rfork]);
 		dat->philos[i].deadmtx = &dead;
