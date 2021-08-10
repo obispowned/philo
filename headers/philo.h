@@ -6,7 +6,7 @@
 /*   By: agutierr <agutierr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/19 19:02:17 by agutierr          #+#    #+#             */
-/*   Updated: 2021/08/09 20:44:52 by agutierr         ###   ########.fr       */
+/*   Updated: 2021/08/10 19:33:38 by agutierr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,11 +44,14 @@ typedef struct s_ph
 	int				caronte_comes;
 	int				eat_count;
 	int				total_eats;
+	int				*fork_flags;
 	int				lfork;
 	int				rfork;
 	pthread_mutex_t	*llfork;
 	pthread_mutex_t	*rrfork;
 	pthread_mutex_t	*deadmtx;
+	int				*flag_eat_max; //cada vez que un filo llega a eat_max, se suma 1
+								//cuando el valor llegue al numero de ph que hay, fin de programa
 }					t_ph;
 
 typedef struct s_dat

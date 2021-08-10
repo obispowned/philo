@@ -6,7 +6,7 @@
 /*   By: agutierr <agutierr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/20 15:45:38 by agutierr          #+#    #+#             */
-/*   Updated: 2021/08/09 20:12:39 by agutierr         ###   ########.fr       */
+/*   Updated: 2021/08/10 19:58:18 by agutierr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,9 @@ void	parsing_argv(int argc, char **argv, t_dat *dat)
 
 void	fill_structs2(t_dat *dat, int i)
 {
+	int	flag_eats;
+
+	flag_eats = 0;
 	dat->philos[i].ph_n = i + 1;
 	dat->philos[i].tdie = dat->tdie;
 	dat->philos[i].teat = dat->teat;
@@ -45,16 +48,38 @@ void	fill_structs2(t_dat *dat, int i)
 	dat->philos[i].last_eat = 0;
 	dat->philos[i].caronte_comes = 0;
 	dat->philos[i].total_ph = dat->total_ph;
+	dat->philos[i].flag_eat_max = &flag_eats;
 }
+
+void	fill_forks(t_dat *dat, int *forky_flag)
+{
+	int	i;
+
+	i = 0;
+	while (i < dat->total_ph)
+	{
+		forky_flag[i] = 0;
+		i++;
+	}
+	i = 0;
+	while (i < dat->total_ph)
+	{
+		dat->philos[i].fork_flags = forky_flag;
+		i++;
+	}
+}
+
 
 pthread_mutex_t	*fill_structs(t_dat *dat)
 {
 	int				i;
 	pthread_mutex_t	*mtx;
 	pthread_mutex_t	dead;
-
+	int				*forky_flag;
+	
 	i = -1;
 	dat->philos = malloc(sizeof(t_ph) * dat->total_ph);
+	forky_flag = malloc(sizeof(int) * dat->total_ph);
 	mtx = malloc(sizeof(pthread_mutex_t) * dat->total_ph);
 	pthread_mutex_init(&dead, NULL);
 	pthread_mutex_unlock(&dead);
@@ -70,6 +95,8 @@ pthread_mutex_t	*fill_structs(t_dat *dat)
 		dat->philos[i].llfork = &(mtx[dat->philos[i].lfork]);
 		dat->philos[i].rrfork = &(mtx[dat->philos[i].rfork]);
 		dat->philos[i].deadmtx = &dead;
+		forky_flag[i] = 0;
 	}
+	fill_forks(dat, forky_flag);
 	return (mtx);
 }

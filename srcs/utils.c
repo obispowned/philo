@@ -6,7 +6,7 @@
 /*   By: agutierr <agutierr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/19 19:53:59 by agutierr          #+#    #+#             */
-/*   Updated: 2021/08/04 17:46:55 by agutierr         ###   ########.fr       */
+/*   Updated: 2021/08/10 19:42:07 by agutierr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,4 +83,31 @@ int	isallnum(char *str)
 		i++;
 	}
 	return (1);
+}
+
+void				*ft_memset(void *ptr, int x, size_t n)
+{
+	size_t			i;
+	char			*a;
+
+	i = 0;
+	a = ptr;
+	while (i < n)
+	{
+		a[i] = (unsigned char)x;
+		i++;
+	}
+	return (&a[0]);
+}
+
+void				*ft_calloc(size_t count, size_t size)
+{
+	void			*ptr;
+	unsigned int	sum;
+
+	sum = count * size;
+	if (!(ptr = malloc(sum)))
+		return (0);
+	ft_memset(ptr, 0, sum);
+	return ((void *)ptr);
 }
