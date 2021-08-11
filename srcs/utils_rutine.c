@@ -6,7 +6,7 @@
 /*   By: agutierr <agutierr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/09 20:30:30 by agutierr          #+#    #+#             */
-/*   Updated: 2021/08/11 20:35:23 by agutierr         ###   ########.fr       */
+/*   Updated: 2021/08/11 20:45:32 by agutierr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,12 @@ void	take_fork_prior(t_ph *philo)
 	}
 	else
 	{
+		ft_usleep(0);
 		while (((philo->fork_flags[philo->lfork] != 0) && (philo->fork_flags[philo->rfork] != 0)) || (philo->caronte_comes != 0))
+		{
+			caronte_comes(philo);
 			dead_check(philo);
+		}
 		philo->fork_flags[philo->lfork] = 1;
 		philo->fork_flags[philo->rfork] = 1;
 		take_fork(philo);
