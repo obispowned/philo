@@ -6,7 +6,7 @@
 /*   By: agutierr <agutierr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/04 16:52:52 by agutierr          #+#    #+#             */
-/*   Updated: 2021/08/04 17:56:30 by agutierr         ###   ########.fr       */
+/*   Updated: 2021/08/11 18:53:02 by agutierr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,7 @@ void	ft_usleep(uint64_t miliseconds)
 
 	start = ft_time(0);
 	while (ft_time(start) < miliseconds)
-	{
 		usleep(1);
-	}
 }
 
 uint64_t	ft_time(uint64_t start)

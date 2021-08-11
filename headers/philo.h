@@ -6,7 +6,7 @@
 /*   By: agutierr <agutierr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/19 19:02:17 by agutierr          #+#    #+#             */
-/*   Updated: 2021/08/11 18:27:43 by agutierr         ###   ########.fr       */
+/*   Updated: 2021/08/11 19:07:38 by agutierr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,8 +79,8 @@ int				isallnum(char *str);
 void			putstr(char *str);
 void			print_exit(char *str);
 int				ret_error(char *str);
-void			printer(char *color, int philo_n, int fork_n, char *msg);
-
+//void			printer(char *color, int philo_n, int fork_n, char *msg);
+void			printer(char *color, uint64_t timer, t_ph *philo, char *msg);
 /*
 *  free.c
 */

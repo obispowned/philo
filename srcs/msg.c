@@ -6,7 +6,7 @@
 /*   By: agutierr <agutierr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/04 16:53:19 by agutierr          #+#    #+#             */
-/*   Updated: 2021/08/11 18:34:05 by agutierr         ###   ########.fr       */
+/*   Updated: 2021/08/11 19:17:29 by agutierr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,10 +33,9 @@ int	ret_error(char *str)
 	return (0);
 }
 
-void	printer(char *color, int philo_n, int fork_n, char *msg)
+void	printer(char *color, uint64_t timer, t_ph *philo, char *msg)
 {
-	if (fork_n == 999999999)
-		printf("%s(%d) %s.\n", color, philo_n, msg);
-	else
-		printf("%s(%d) %s (%d)\n", color, philo_n, msg, fork_n);
+	//pthread_mutex_lock(philo->mprint);
+	printf("%s| %-8llu ms | %s(%d) %s.\n", CYAN, timer, color, philo->ph_n, msg);
+	//pthread_mutex_unlock(philo->mprint);
 }

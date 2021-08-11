@@ -6,7 +6,7 @@
 /*   By: agutierr <agutierr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/09 20:30:30 by agutierr          #+#    #+#             */
-/*   Updated: 2021/08/11 18:30:31 by agutierr         ###   ########.fr       */
+/*   Updated: 2021/08/11 19:16:57 by agutierr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,10 +54,7 @@ void	dead_check(t_ph *philo, uint64_t	aux_time)
 	if ((aux_time - philo->last_eat) > philo->tdie)
 	{
 		timer = ft_time(0);
-		pthread_mutex_lock(philo->mprint);
-		printf("%s| %-8llu ms | ", CYAN, ft_time(0) - philo->start);
-		printer(RED, philo->ph_n, 999999999, "is dead");
-		pthread_mutex_unlock(philo->mprint);
+		printer(RED, ft_time(0) - philo->start, philo, "is dead");
 		exit (0);
 	}
 }
@@ -67,29 +64,15 @@ void	take_fork(t_ph *philo)
 	if (philo->ph_n == philo->total_ph)
 	{
 		pthread_mutex_lock(philo->rrfork);
-		pthread_mutex_lock(philo->mprint);
-		printf("%s| %-8llu ms | ", CYAN, ft_time(0) - philo->start);
-		printer(YELLOW, philo->ph_n, philo->rfork, "has taken right fork");
-		pthread_mutex_unlock(philo->mprint);
+		printer(YELLOW, ft_time(0) - philo->start, philo, "has taken right fork");
 		pthread_mutex_lock(philo->llfork);
-		pthread_mutex_lock(philo->mprint);
-		printf("%s| %-8llu ms | ", CYAN, ft_time(0) - philo->start);
-		printer(YELLOW, philo->ph_n,
-			philo->lfork, "has taken left fork");
-		pthread_mutex_unlock(philo->mprint);
+		printer(YELLOW, ft_time(0) - philo->start, philo, "has taken left fork");
 	}
 	else
 	{
 		pthread_mutex_lock(philo->llfork);
-		pthread_mutex_lock(philo->mprint);
-		printf("%s| %-8llu ms | ", CYAN, ft_time(0) - philo->start);
-		printer(YELLOW, philo->ph_n, philo->lfork, "has taken left fork");
-		pthread_mutex_unlock(philo->mprint);
+		printer(YELLOW, ft_time(0) - philo->start, philo, "has taken left fork");
 		pthread_mutex_lock(philo->rrfork);
-		pthread_mutex_lock(philo->mprint);
-		printf("%s| %-8llu ms | ", CYAN, ft_time(0) - philo->start);
-		printer(YELLOW, philo->ph_n,
-			philo->rfork, "has taken right fork");
-		pthread_mutex_unlock(philo->mprint);
+		printer(YELLOW, ft_time(0) - philo->start, philo, "has taken right fork");
 	}
 }

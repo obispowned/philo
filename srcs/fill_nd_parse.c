@@ -6,7 +6,7 @@
 /*   By: agutierr <agutierr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/20 15:45:38 by agutierr          #+#    #+#             */
-/*   Updated: 2021/08/11 18:38:27 by agutierr         ###   ########.fr       */
+/*   Updated: 2021/08/11 19:14:32 by agutierr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,6 @@ pthread_mutex_t	*fill_structs(t_dat *dat)
 	mtx = malloc(sizeof(pthread_mutex_t) * dat->total_ph);
 	dead = malloc(sizeof(pthread_mutex_t));
 	pthread_mutex_init(dead, NULL);
-	pthread_mutex_unlock(dead);
 	while (++i < dat->total_ph)
 	{
 		pthread_mutex_init(&mtx[i], NULL);
@@ -98,6 +97,7 @@ pthread_mutex_t	*fill_structs(t_dat *dat)
 		dat->philos[i].mprint = dead;
 		forky_flag[i] = 0;
 	}
+	pthread_mutex_unlock(dead);
 	fill_forks(dat, forky_flag);
 	return (mtx);
 }
