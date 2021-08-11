@@ -6,7 +6,7 @@
 /*   By: agutierr <agutierr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/19 19:02:17 by agutierr          #+#    #+#             */
-/*   Updated: 2021/08/10 19:33:38 by agutierr         ###   ########.fr       */
+/*   Updated: 2021/08/11 18:27:43 by agutierr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ typedef struct s_ph
 	int				rfork;
 	pthread_mutex_t	*llfork;
 	pthread_mutex_t	*rrfork;
-	pthread_mutex_t	*deadmtx;
+	pthread_mutex_t	*mprint;
 	int				*flag_eat_max; //cada vez que un filo llega a eat_max, se suma 1
 								//cuando el valor llegue al numero de ph que hay, fin de programa
 }					t_ph;

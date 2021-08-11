@@ -6,7 +6,7 @@
 /*   By: agutierr <agutierr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/19 19:05:01 by agutierr          #+#    #+#             */
-/*   Updated: 2021/08/11 17:40:42 by agutierr         ###   ########.fr       */
+/*   Updated: 2021/08/11 18:31:19 by agutierr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,10 @@
 
 uint64_t	time_to_eat(t_ph *philo)
 {
+	pthread_mutex_lock(philo->mprint);
 	printf("%s| %-8llu ms | ", CYAN, ft_time(0) - philo->start);
 	printer(GREEN, philo->ph_n, 999999999, "eats...");
+	pthread_mutex_unlock(philo->mprint);
 	ft_usleep(philo->teat);
 	philo->eat_count++;
 	pthread_mutex_unlock(philo->rrfork);
@@ -31,16 +33,20 @@ uint64_t	time_to_sleep(t_ph *philo)
 	uint64_t	timer;
 
 	timer = ft_time(0);
+	pthread_mutex_lock(philo->mprint);
 	printf("%s| %-8llu ms | ", CYAN, ft_time(0) - philo->start);
 	printf("%s(%d) is sleeping zZ zZzZ\n", MAGENTA, philo->ph_n);
+	pthread_mutex_unlock(philo->mprint);
 	ft_usleep(philo->tsleep);
 	return (0);
 }	
 
 uint64_t	time_to_think(t_ph *philo)
 {
+	pthread_mutex_lock(philo->mprint);
 	printf("%s| %-8llu ms | ", CYAN, ft_time(0) - philo->start);
 	printf("%s(%d) is thinking...\n", WHITE, philo->ph_n);
+	pthread_mutex_unlock(philo->mprint);
 	return (0);
 }	
 
