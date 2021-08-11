@@ -6,7 +6,7 @@
 /*   By: agutierr <agutierr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/19 19:05:01 by agutierr          #+#    #+#             */
-/*   Updated: 2021/08/10 20:13:08 by agutierr         ###   ########.fr       */
+/*   Updated: 2021/08/11 17:40:42 by agutierr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,10 +22,7 @@ uint64_t	time_to_eat(t_ph *philo)
 	pthread_mutex_unlock(philo->llfork);
 	philo->fork_flags[philo->lfork] = 0;
 	philo->fork_flags[philo->rfork] = 0;
-	if (philo->eat_count == philo->total_eats)
-		(*(philo->flag_eat_max))++;
-	if (*(philo->flag_eat_max) == philo->total_ph)
-		print_exit("Todos los philos comieron su maximo de comidas.\n");
+	max_eats_check(philo);
 	return (0);
 }
 
@@ -54,9 +51,9 @@ void	*rutine(void *arg)
 
 	philo = (t_ph *)arg;
 	philo->last_eat = ft_time(0);
-	if (philo->ph_n % 2 == 0 || philo->ph_n == philo->total_ph)
+	if (philo->ph_n % 2 == 0 || (philo->ph_n == philo->total_ph && philo->total_ph % 2 != 0))
 		ft_usleep(philo->teat);
-	if (philo->ph_n == philo->total_ph)
+	if ((philo->ph_n == philo->total_ph) && (philo->total_ph % 2 != 0))
 		ft_usleep(philo->teat);
 	while (1)
 	{
@@ -66,7 +63,6 @@ void	*rutine(void *arg)
 		philo->caronte_comes = 0;
 		philo->last_eat = ft_time(0);
 		time_to_eat(philo);
-		//max_eats_check(philo);
 		time_to_sleep(philo);
 		time_to_think(philo);
 		caronte_comes(philo);

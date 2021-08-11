@@ -6,7 +6,7 @@
 /*   By: agutierr <agutierr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/09 20:30:30 by agutierr          #+#    #+#             */
-/*   Updated: 2021/08/10 20:11:36 by agutierr         ###   ########.fr       */
+/*   Updated: 2021/08/11 17:41:21 by agutierr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,11 +33,7 @@ void	take_fork_prior(t_ph *philo)
 void	caronte_comes(t_ph *philo)
 {
 	if ((ft_time(0) - philo->last_eat) >= (philo->tdie - philo->tdie / 4))
-	{
 		philo->caronte_comes = 1;
-		printer(RED, philo->ph_n, 999999999,
-			"Caronte en su canoa esta en camino a por tu alma");
-	}
 	else
 		ft_usleep(0);
 }
@@ -45,11 +41,9 @@ void	caronte_comes(t_ph *philo)
 void	max_eats_check(t_ph *philo)
 {
 	if (philo->eat_count == philo->total_eats)
-	{
-		printf("philo %d, count %d, total_eat: %d ",
-			philo->ph_n, philo->eat_count, philo->total_eats);
-		print_exit("Se acabó la comida.\n");
-	}
+		(*(philo->flag_eat_max))++;
+	if (*(philo->flag_eat_max) == philo->total_ph)
+		print_exit("\n");
 }
 
 void	dead_check(t_ph *philo, uint64_t	aux_time)
