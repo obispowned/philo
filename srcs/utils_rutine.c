@@ -6,7 +6,7 @@
 /*   By: agutierr <agutierr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/09 20:30:30 by agutierr          #+#    #+#             */
-/*   Updated: 2021/08/11 19:16:57 by agutierr         ###   ########.fr       */
+/*   Updated: 2021/08/11 20:35:23 by agutierr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	take_fork_prior(t_ph *philo)
 {
-	if (philo->caronte_comes == 1 || philo->eat_count == 0)
+	if (philo->eat_count == 0)
 	{
 		philo->fork_flags[philo->lfork] = 1;
 		philo->fork_flags[philo->rfork] = 1;
@@ -22,8 +22,8 @@ void	take_fork_prior(t_ph *philo)
 	}
 	else
 	{
-		while ((philo->fork_flags[philo->lfork] != 0) && (philo->fork_flags[philo->rfork] != 0))
-			;
+		while (((philo->fork_flags[philo->lfork] != 0) && (philo->fork_flags[philo->rfork] != 0)) || (philo->caronte_comes != 0))
+			dead_check(philo);
 		philo->fork_flags[philo->lfork] = 1;
 		philo->fork_flags[philo->rfork] = 1;
 		take_fork(philo);
@@ -32,7 +32,10 @@ void	take_fork_prior(t_ph *philo)
 
 void	caronte_comes(t_ph *philo)
 {
-	if ((ft_time(0) - philo->last_eat) >= (philo->tdie - philo->tdie / 4))
+	uint64_t		timer;
+	
+	timer = start_clock();
+	if ((timer - philo->last_eat) >= (philo->tdie - philo->tdie / 4))
 		philo->caronte_comes = 1;
 	else
 		ft_usleep(0);
@@ -46,33 +49,35 @@ void	max_eats_check(t_ph *philo)
 		print_exit("\n");
 }
 
-void	dead_check(t_ph *philo, uint64_t	aux_time)
+void	dead_check(t_ph *philo)
 {
 	uint64_t	timer;
 
-	
-	if ((aux_time - philo->last_eat) > philo->tdie)
+	timer = start_clock();
+	if ((timer - philo->start) > philo->tdie)
 	{
-		timer = ft_time(0);
-		printer(RED, ft_time(0) - philo->start, philo, "is dead");
-		exit (0);
+		printer(RED, timer - philo->start, philo, "is dead");
+		exit(0);
 	}
 }
 
 void	take_fork(t_ph *philo)
 {	
+	uint64_t	timer;
+
+	timer = start_clock();
 	if (philo->ph_n == philo->total_ph)
 	{
 		pthread_mutex_lock(philo->rrfork);
-		printer(YELLOW, ft_time(0) - philo->start, philo, "has taken right fork");
+		printer(YELLOW, timer - philo->start, philo, "has taken right fork");
 		pthread_mutex_lock(philo->llfork);
-		printer(YELLOW, ft_time(0) - philo->start, philo, "has taken left fork");
+		printer(YELLOW, timer - philo->start, philo, "has taken left fork");
 	}
 	else
 	{
 		pthread_mutex_lock(philo->llfork);
-		printer(YELLOW, ft_time(0) - philo->start, philo, "has taken left fork");
+		printer(YELLOW, timer - philo->start, philo, "has taken left fork");
 		pthread_mutex_lock(philo->rrfork);
-		printer(YELLOW, ft_time(0) - philo->start, philo, "has taken right fork");
+		printer(YELLOW, timer - philo->start, philo, "has taken right fork");
 	}
 }

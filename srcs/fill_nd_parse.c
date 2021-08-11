@@ -6,7 +6,7 @@
 /*   By: agutierr <agutierr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/20 15:45:38 by agutierr          #+#    #+#             */
-/*   Updated: 2021/08/11 19:14:32 by agutierr         ###   ########.fr       */
+/*   Updated: 2021/08/11 19:49:21 by agutierr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,6 +95,7 @@ pthread_mutex_t	*fill_structs(t_dat *dat)
 		dat->philos[i].llfork = &(mtx[dat->philos[i].lfork]);
 		dat->philos[i].rrfork = &(mtx[dat->philos[i].rfork]);
 		dat->philos[i].mprint = dead;
+		dat->philos[i].start = dat->begin;
 		forky_flag[i] = 0;
 	}
 	pthread_mutex_unlock(dead);

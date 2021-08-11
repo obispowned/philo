@@ -6,7 +6,7 @@
 /*   By: agutierr <agutierr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/19 19:02:17 by agutierr          #+#    #+#             */
-/*   Updated: 2021/08/11 19:07:38 by agutierr         ###   ########.fr       */
+/*   Updated: 2021/08/11 20:32:31 by agutierr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,8 +50,7 @@ typedef struct s_ph
 	pthread_mutex_t	*llfork;
 	pthread_mutex_t	*rrfork;
 	pthread_mutex_t	*mprint;
-	int				*flag_eat_max; //cada vez que un filo llega a eat_max, se suma 1
-								//cuando el valor llegue al numero de ph que hay, fin de programa
+	int				*flag_eat_max;
 }					t_ph;
 
 typedef struct s_dat
@@ -79,7 +78,6 @@ int				isallnum(char *str);
 void			putstr(char *str);
 void			print_exit(char *str);
 int				ret_error(char *str);
-//void			printer(char *color, int philo_n, int fork_n, char *msg);
 void			printer(char *color, uint64_t timer, t_ph *philo, char *msg);
 /*
 *  free.c
@@ -97,7 +95,6 @@ pthread_mutex_t	*fill_structs(t_dat *dat);
 **	timers.c
 */
 void			ft_usleep(uint64_t miliseconds);
-uint64_t		ft_time(uint64_t start);
 uint64_t		start_clock(void);
 
 /*
@@ -115,7 +112,7 @@ void			*rutine(void *arg);
 
 void			caronte_comes(t_ph *philo);
 void			max_eats_check(t_ph *philo);
-void			dead_check(t_ph *philo, uint64_t	aux_time);
+void			dead_check(t_ph *philo);
 void			take_fork(t_ph *philo);
 void			take_fork_prior(t_ph *philo);
 
