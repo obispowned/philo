@@ -55,7 +55,7 @@ void	dead_check(t_ph *philo)
 	uint64_t	timer;
 
 	timer = start_clock();
-	if ((timer - philo->start) > philo->tdie)
+	if ((timer - philo->last_eat) > philo->tdie)
 	{
 		printer(RED, timer - philo->start, philo, "is dead");
 		exit(0);
@@ -68,8 +68,8 @@ void	take_fork(t_ph *philo)
 
 	pthread_mutex_lock(philo->llfork);
 	timer = start_clock();
-	printer(YELLOW, timer - philo->start, philo, "has taken right fork");
+	printer(YELLOW, timer - philo->start, philo, "has taken left fork");
 	pthread_mutex_lock(philo->rrfork);
 	timer = start_clock();
-	printer(YELLOW, timer - philo->start, philo, "has taken left fork");
+	printer(YELLOW, timer - philo->start, philo, "has taken right fork");
 }

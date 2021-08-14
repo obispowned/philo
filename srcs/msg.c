@@ -35,7 +35,7 @@ int	ret_error(char *str)
 
 void	printer(char *color, uint64_t timer, t_ph *philo, char *msg)
 {
-	//pthread_mutex_lock(philo->mprint);
+	pthread_mutex_lock(philo->mprint);
 	printf("%s| %-8llu ms | %s(%d) %s.\n", CYAN, timer, color, philo->ph_n, msg);
-	//pthread_mutex_unlock(philo->mprint);
+	pthread_mutex_unlock(philo->mprint);
 }

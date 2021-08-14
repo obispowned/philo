@@ -38,12 +38,16 @@ void	fill_structs2(t_dat *dat, int i)
 	int	flag_eats;
 
 	flag_eats = 0;
-	dat->philos[i].ph_n = i + 1;
+	dat->philos[i].ph_n = i;
 	dat->philos[i].tdie = dat->tdie;
 	dat->philos[i].teat = dat->teat;
 	dat->philos[i].tsleep = dat->tsleep;
 	dat->philos[i].eat_count = 0;
-	dat->philos[i].lfork = i + 1;
+	dat->philos[i].lfork = i;
+	if (i == 0)
+		dat->philos[i].rfork = dat->total_ph;
+	else
+		dat->philos[i].rfork = i - 1;
 	dat->philos[i].total_eats = dat->total_eats;
 	dat->philos[i].last_eat = 0;
 	dat->philos[i].caronte_comes = 0;
@@ -93,10 +97,6 @@ pthread_mutex_t	*fill_structs(t_dat *dat)
 	while (++i < dat->total_ph)
 	{
 		fill_structs2(dat, i);
-		if (i == 0)
-			dat->philos[i].rfork = dat->total_ph;
-		else
-			dat->philos[i].rfork = i;
 		dat->philos[i].llfork = &(mtx[dat->philos[i].lfork]);
 		dat->philos[i].rrfork = &(mtx[dat->philos[i].rfork]);
 		dat->philos[i].mprint = dead;
