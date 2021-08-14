@@ -82,11 +82,16 @@ pthread_mutex_t	*fill_structs(t_dat *dat)
 	forky_flag = malloc(sizeof(int) * dat->total_ph);
 	mtx = malloc(sizeof(pthread_mutex_t) * dat->total_ph);
 	dead = malloc(sizeof(pthread_mutex_t));
-	pthread_mutex_init(dead, NULL);
+	pthread_mutex_init(&dead[0], NULL);
+	pthread_mutex_unlock(&dead[0]);
 	while (++i < dat->total_ph)
 	{
 		pthread_mutex_init(&mtx[i], NULL);
 		pthread_mutex_unlock(&mtx[i]);
+	}
+	i = -1;
+	while (++i < dat->total_ph)
+	{
 		fill_structs2(dat, i);
 		if (i == 0)
 			dat->philos[i].rfork = dat->total_ph;
@@ -98,7 +103,6 @@ pthread_mutex_t	*fill_structs(t_dat *dat)
 		dat->philos[i].start = dat->begin;
 		forky_flag[i] = 0;
 	}
-	pthread_mutex_unlock(dead);
 	fill_forks(dat, forky_flag);
 	return (mtx);
 }

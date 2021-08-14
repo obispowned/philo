@@ -50,11 +50,11 @@ void	*rutine(void *arg)
 	t_ph		*philo;
 
 	philo = (t_ph *)arg;
-	philo->last_eat = start_clock();
 	if (philo->ph_n % 2 == 0 || (philo->ph_n == philo->total_ph && philo->total_ph % 2 != 0))
 		ft_usleep(philo->teat);
-	/*if ((philo->ph_n == philo->total_ph) && (philo->total_ph % 2 != 0))
-		ft_usleep(philo->teat);*/
+	if ((philo->ph_n == philo->total_ph) && (philo->total_ph % 2 != 0))
+		ft_usleep(philo->teat);
+	philo->last_eat = start_clock();
 	while (1)
 	{
 		take_fork_prior(philo);
@@ -71,15 +71,14 @@ void	*rutine(void *arg)
 int	main(int argc, char **argv)
 {
 	t_dat			dat;
-	pthread_mutex_t	*mtx;
 
 	if (argc < 5 || argc > 6)
 		print_exit("Error\nNumero de argumentos invalido.");
 	parsing_argv(argc, argv, &dat);
 	dat.begin = start_clock();
-	mtx = fill_structs(&dat);
+	fill_structs(&dat);
 	create_threads(&dat);
 	run_threads(&dat);
-	turbofree(mtx, &dat);
+	//turbofree(mtx, &dat);
 	return (0);
 }

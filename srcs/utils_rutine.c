@@ -22,8 +22,7 @@ void	take_fork_prior(t_ph *philo)
 	}
 	else
 	{
-		ft_usleep(0);
-		while (((philo->fork_flags[philo->lfork] != 0) && (philo->fork_flags[philo->rfork] != 0)) || (philo->caronte_comes != 0))
+		while (((philo->fork_flags[philo->lfork] != 0) && (philo->fork_flags[philo->rfork] != 0))  ||(philo->caronte_comes != 0))
 		{
 			caronte_comes(philo);
 			dead_check(philo);
@@ -41,8 +40,6 @@ void	caronte_comes(t_ph *philo)
 	timer = start_clock();
 	if ((timer - philo->last_eat) >= (philo->tdie - philo->tdie / 4))
 		philo->caronte_comes = 1;
-	else
-		ft_usleep(0);
 }
 
 void	max_eats_check(t_ph *philo)
@@ -69,19 +66,10 @@ void	take_fork(t_ph *philo)
 {	
 	uint64_t	timer;
 
+	pthread_mutex_lock(philo->llfork);
 	timer = start_clock();
-	if (philo->ph_n == philo->total_ph)
-	{
-		pthread_mutex_lock(philo->rrfork);
-		printer(YELLOW, timer - philo->start, philo, "has taken right fork");
-		pthread_mutex_lock(philo->llfork);
-		printer(YELLOW, timer - philo->start, philo, "has taken left fork");
-	}
-	else
-	{
-		pthread_mutex_lock(philo->llfork);
-		printer(YELLOW, timer - philo->start, philo, "has taken left fork");
-		pthread_mutex_lock(philo->rrfork);
-		printer(YELLOW, timer - philo->start, philo, "has taken right fork");
-	}
+	printer(YELLOW, timer - philo->start, philo, "has taken right fork");
+	pthread_mutex_lock(philo->rrfork);
+	timer = start_clock();
+	printer(YELLOW, timer - philo->start, philo, "has taken left fork");
 }

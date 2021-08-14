@@ -91,6 +91,7 @@ void			ace(char *str, ...);
 void			parsing_argv(int argc, char **argv, t_dat *dat);
 pthread_mutex_t	*fill_structs(t_dat *dat);
 
+
 /*
 **	timers.c
 */
