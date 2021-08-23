@@ -45,7 +45,7 @@ void	fill_structs2(t_dat *dat, int i)
 	dat->philos[i].eat_count = 0;
 	dat->philos[i].lfork = i;
 	if (i == 0)
-		dat->philos[i].rfork = dat->total_ph;
+		dat->philos[i].rfork = dat->total_ph -1 ;//para coger la pos del tenedor (4)
 	else
 		dat->philos[i].rfork = i - 1;
 	dat->philos[i].total_eats = dat->total_eats;
