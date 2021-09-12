@@ -6,7 +6,7 @@
 /*   By: agutierr <agutierr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/19 19:02:17 by agutierr          #+#    #+#             */
-/*   Updated: 2021/08/11 20:32:31 by agutierr         ###   ########.fr       */
+/*   Updated: 2021/09/12 20:13:29 by agutierr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,5 +116,8 @@ void			max_eats_check(t_ph *philo);
 void			dead_check(t_ph *philo);
 void			take_fork(t_ph *philo);
 void			take_fork_prior(t_ph *philo);
+
+int 		strafing_killer(t_dat *dat, int i);
+int			dead_checker(t_dat *dat);
 
 #endif

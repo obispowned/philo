@@ -6,7 +6,7 @@
 /*   By: agutierr <agutierr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/19 19:05:01 by agutierr          #+#    #+#             */
-/*   Updated: 2021/08/11 20:33:18 by agutierr         ###   ########.fr       */
+/*   Updated: 2021/09/12 20:21:02 by agutierr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ void	*rutine(void *arg)
 	while (1)
 	{
 		take_fork_prior(philo);
-		dead_check(philo);
+		dead_check(philo); /**/
 		philo->caronte_comes = 0;
 		time_to_eat(philo);
 		time_to_sleep(philo);
@@ -66,6 +66,33 @@ void	*rutine(void *arg)
 		caronte_comes(philo);
 	}
 	return (NULL);
+}
+
+int strafing_killer(t_dat *dat, int i)
+{
+	uint64_t	timer;
+
+	timer = start_clock();
+	printer(RED, timer - dat->begin, &(dat->philos[i]), "is dead");
+	return (0);
+}
+
+int	dead_checker(t_dat *dat)
+{
+	int	i;
+	uint64_t		timer;
+
+	i = 0;
+	while (1)
+	{
+		timer = start_clock();
+		if ((timer - dat->philos[i].last_eat) > dat->tdie)
+			return (strafing_killer(dat, i));
+		i++;
+		if (i == dat->total_ph)
+			i = 0;
+	}
+	return (0);
 }
 
 int	main(int argc, char **argv)
@@ -79,6 +106,7 @@ int	main(int argc, char **argv)
 	fill_structs(&dat);
 	create_threads(&dat);
 	run_threads(&dat);
+	return (dead_checker(&dat));
 	//turbofree(mtx, &dat);
 	return (0);
 }
