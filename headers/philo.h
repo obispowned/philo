@@ -6,7 +6,7 @@
 /*   By: agutierr <agutierr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/19 19:02:17 by agutierr          #+#    #+#             */
-/*   Updated: 2021/09/12 20:13:29 by agutierr         ###   ########.fr       */
+/*   Updated: 2021/09/17 19:46:10 by agutierr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,7 @@ typedef struct s_ph
 	int				caronte_comes;
 	int				eat_count;
 	int				total_eats;
+	int				*full_eats;
 	int				*fork_flags;
 	int				lfork;
 	int				rfork;
@@ -60,6 +61,7 @@ typedef struct s_dat
 	uint64_t		tdie;
 	uint64_t		teat;
 	uint64_t		tsleep;
+	int				full_eat;
 	unsigned int	total_eats;
 	t_ph			*philos;
 }					t_dat;

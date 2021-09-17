@@ -6,7 +6,7 @@
 /*   By: agutierr <agutierr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/20 15:45:38 by agutierr          #+#    #+#             */
-/*   Updated: 2021/08/11 19:49:21 by agutierr         ###   ########.fr       */
+/*   Updated: 2021/09/17 19:47:07 by agutierr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@ void	fill_structs2(t_dat *dat, int i)
 	int	flag_eats;
 
 	flag_eats = 0;
+	dat->begin = start_clock();
 	dat->philos[i].ph_n = i;
 	dat->philos[i].tdie = dat->tdie;
 	dat->philos[i].teat = dat->teat;
@@ -45,11 +46,11 @@ void	fill_structs2(t_dat *dat, int i)
 	dat->philos[i].eat_count = 0;
 	dat->philos[i].lfork = i;
 	if (i == 0)
-		dat->philos[i].rfork = dat->total_ph -1 ;//para coger la pos del tenedor (4)
+		dat->philos[i].rfork = dat->total_ph - 1 ;//para coger la pos del tenedor (4)
 	else
 		dat->philos[i].rfork = i - 1;
 	dat->philos[i].total_eats = dat->total_eats;
-	dat->philos[i].last_eat = 0;
+	dat->philos[i].last_eat = dat->begin;
 	dat->philos[i].caronte_comes = 0;
 	dat->philos[i].total_ph = dat->total_ph;
 	dat->philos[i].flag_eat_max = &flag_eats;
@@ -58,8 +59,9 @@ void	fill_structs2(t_dat *dat, int i)
 void	fill_forks(t_dat *dat, int *forky_flag)
 {
 	int	i;
-
+	
 	i = 0;
+	dat->full_eat = 0;
 	while (i < dat->total_ph)
 	{
 		forky_flag[i] = 0;
@@ -69,10 +71,10 @@ void	fill_forks(t_dat *dat, int *forky_flag)
 	while (i < dat->total_ph)
 	{
 		dat->philos[i].fork_flags = forky_flag;
+		dat->philos[i].full_eats = &(dat->full_eat);
 		i++;
 	}
 }
-
 
 pthread_mutex_t	*fill_structs(t_dat *dat)
 {
