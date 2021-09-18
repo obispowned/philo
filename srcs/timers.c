@@ -6,7 +6,7 @@
 /*   By: agutierr <agutierr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/04 16:52:52 by agutierr          #+#    #+#             */
-/*   Updated: 2021/08/11 20:31:26 by agutierr         ###   ########.fr       */
+/*   Updated: 2021/09/18 18:41:58 by agutierr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,23 +15,21 @@
 void	ft_usleep(uint64_t miliseconds)
 {
 	uint64_t	start;
-	uint64_t	i;
 
-	i = 0;
-	start = start_clock();
-	while (i < miliseconds)
-	{
+	start = start_clock(0);
+	while (start_clock(start) < miliseconds)
 		usleep(1);
-		i = start_clock() - start;
-	}
 }
 
-uint64_t	start_clock(void)
+uint64_t	start_clock(uint64_t start)
 {
 	struct timeval	aux_clock;
+	uint64_t	ret;
 
 	gettimeofday(&aux_clock, NULL);
-	return ((uint64_t)((aux_clock.tv_usec / 1000)) + (aux_clock.tv_sec * 1000));
+	ret = (aux_clock.tv_sec * 1000) + (aux_clock.tv_usec / 1000);
+	ret -= start;
+	return (ret);
 }
 
 /*

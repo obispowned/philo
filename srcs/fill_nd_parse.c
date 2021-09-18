@@ -6,7 +6,7 @@
 /*   By: agutierr <agutierr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/20 15:45:38 by agutierr          #+#    #+#             */
-/*   Updated: 2021/09/17 19:47:07 by agutierr         ###   ########.fr       */
+/*   Updated: 2021/09/18 19:05:28 by agutierr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ void	fill_structs2(t_dat *dat, int i)
 	int	flag_eats;
 
 	flag_eats = 0;
-	dat->begin = start_clock();
+	dat->begin = start_clock(0);
 	dat->philos[i].ph_n = i;
 	dat->philos[i].tdie = dat->tdie;
 	dat->philos[i].teat = dat->teat;
@@ -62,6 +62,7 @@ void	fill_forks(t_dat *dat, int *forky_flag)
 	
 	i = 0;
 	dat->full_eat = 0;
+	dat->banquet = ON;
 	while (i < dat->total_ph)
 	{
 		forky_flag[i] = 0;
@@ -72,6 +73,7 @@ void	fill_forks(t_dat *dat, int *forky_flag)
 	{
 		dat->philos[i].fork_flags = forky_flag;
 		dat->philos[i].full_eats = &(dat->full_eat);
+		dat->philos[i].banquet = &dat->banquet;
 		i++;
 	}
 }

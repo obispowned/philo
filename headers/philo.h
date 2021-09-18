@@ -6,7 +6,7 @@
 /*   By: agutierr <agutierr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/19 19:02:17 by agutierr          #+#    #+#             */
-/*   Updated: 2021/09/17 19:46:10 by agutierr         ###   ########.fr       */
+/*   Updated: 2021/09/18 18:40:51 by agutierr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,9 @@
 # define CYAN "\x1b[36m"
 # define WHITE "\x1b[37m"
 
+# define ON 1
+# define OFF 0
+
 typedef struct s_ph
 {
 	unsigned int	total_ph;
@@ -45,6 +48,7 @@ typedef struct s_ph
 	int				eat_count;
 	int				total_eats;
 	int				*full_eats;
+	int				*banquet;
 	int				*fork_flags;
 	int				lfork;
 	int				rfork;
@@ -61,6 +65,7 @@ typedef struct s_dat
 	uint64_t		tdie;
 	uint64_t		teat;
 	uint64_t		tsleep;
+	int				banquet;
 	int				full_eat;
 	unsigned int	total_eats;
 	t_ph			*philos;
@@ -98,14 +103,14 @@ pthread_mutex_t	*fill_structs(t_dat *dat);
 **	timers.c
 */
 void			ft_usleep(uint64_t miliseconds);
-uint64_t		start_clock(void);
+uint64_t		start_clock(uint64_t start);
 
 /*
 **	create threads
 */
 void			create_threads(t_dat *dat);
 void			run_threads(t_dat *dat);
-void			turbofree(pthread_mutex_t *mtx, t_dat *dat);
+void			turbofree(t_dat *dat);
 
 void			take_fork(t_ph *philo);
 uint64_t		time_to_eat(t_ph *philo);
@@ -115,11 +120,11 @@ void			*rutine(void *arg);
 
 void			caronte_comes(t_ph *philo);
 void			max_eats_check(t_ph *philo);
-void			dead_check(t_ph *philo);
+void			status_check(t_ph *philo);
 void			take_fork(t_ph *philo);
 void			take_fork_prior(t_ph *philo);
 
-int 		strafing_killer(t_dat *dat, int i);
-int			dead_checker(t_dat *dat);
+int 			strafing_killer(t_dat *dat, int i);
+int				dead_checker(t_dat *dat);
 
 #endif
