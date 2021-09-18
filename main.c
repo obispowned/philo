@@ -6,7 +6,7 @@
 /*   By: agutierr <agutierr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/19 19:05:01 by agutierr          #+#    #+#             */
-/*   Updated: 2021/09/18 19:05:05 by agutierr         ###   ########.fr       */
+/*   Updated: 2021/09/18 19:31:26 by agutierr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ void	*rutine(void *arg)
 	philo = (t_ph *)arg;
 	if (philo->total_ph % 2 == 0 && philo->ph_n % 2 == 0)
 		ft_usleep(philo->teat);
-	if (((philo->total_ph % 2 != 0) && (philo->total_ph != 1)) && ((philo->ph_n == philo->total_ph) || philo->total_ph % 2 != 0))
+	if (((philo->total_ph % 2 != 0) && (philo->total_ph != 1)) && ((philo->ph_n == philo->total_ph -1) || philo->total_ph % 2 == 0))
 		ft_usleep(philo->teat);
 	while (*philo->banquet == ON)
 	{

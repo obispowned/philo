@@ -6,7 +6,7 @@
 #    By: agutierr <agutierr@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/08/04 16:53:08 by agutierr          #+#    #+#              #
-#    Updated: 2021/08/09 20:39:10 by agutierr         ###   ########.fr        #
+#    Updated: 2021/09/18 19:22:49 by agutierr         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,7 +24,7 @@ OBJS 			=	$(SRCS:.c=.o)
 
 
 GCC 			=	gcc
-CFLAGS			=	-Wall -Wall -Werror -g
+CFLAGS			=	-Wall -Wall -Werror -O3
 
 #############################
 RED 			= \033[0;31m
