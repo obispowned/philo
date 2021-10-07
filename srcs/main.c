@@ -6,7 +6,7 @@
 /*   By: agutierr <agutierr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/19 19:05:01 by agutierr          #+#    #+#             */
-/*   Updated: 2021/10/07 18:02:43 by agutierr         ###   ########.fr       */
+/*   Updated: 2021/10/07 18:59:10 by agutierr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,8 +107,9 @@ int	main(int argc, char **argv)
 	i = 0;
 	atexit(leak);
 	if (argc < 5 || argc > 6)
-		print_exit("Error\nNumero de argumentos invalido.");
-	parsing_argv(argc, argv, &dat);
+		return(print_error("Error\nNumero de argumentos invalido."));
+	if (!parsing_argv(argc, argv, &dat))
+		return(0);
 	mtx = fill_structs(&dat);
 	create_threads(&dat);
 	if (status_checker(&dat) == 0 && dat.total_ph > 1)

@@ -6,7 +6,7 @@
 #    By: agutierr <agutierr@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/08/04 16:53:08 by agutierr          #+#    #+#              #
-#    Updated: 2021/10/07 18:12:19 by agutierr         ###   ########.fr        #
+#    Updated: 2021/10/07 19:01:14 by agutierr         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -38,14 +38,11 @@ GREEN			= \033[1;32m
 RESET			= \033[0m
 #############################
 
+all: $(NAME)
+
 $(OBJ_PATH)/%.o: $(SRC_PATH)/%.c
 	@mkdir -p $(OBJ_PATH) 2> /dev/null || true
 	@$(GCC) -g $(CFLAGS) -o $@  -c $^
-
-all: $(NAME)
-
-%.o: %.c
-	$(GCC) $(CFLAGS) -o $@ -c $^
 
 $(NAME): $(OBJS)
 	@echo "${PURPLE} Iniciando Compilacion ...${RESET}"
@@ -55,7 +52,7 @@ $(NAME): $(OBJS)
 	@echo "[.oOo.oOo.oOo.oOo.]${RESET}"
 
 norminette:
-	norminette main.c srcs/* headers/*
+	norminette srcs/main.c srcs/* headers/*
 
 fclean: clean
 	@echo "${RED}  Limpiando ejecutable ... ${RESET}"
@@ -63,7 +60,7 @@ fclean: clean
 
 clean:
 	@echo "${RED}  Limpiando OBJs ... ${RESET}"
-	$(RM) $(OBJS)
+	@rm -rf $(OBJ_PATH)
 
 re: fclean all
 

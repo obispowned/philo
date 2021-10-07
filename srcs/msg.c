@@ -6,7 +6,7 @@
 /*   By: agutierr <agutierr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/04 16:53:19 by agutierr          #+#    #+#             */
-/*   Updated: 2021/10/07 18:19:48 by agutierr         ###   ########.fr       */
+/*   Updated: 2021/10/07 18:25:07 by agutierr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,12 @@ void	putstr(char *str)
 		write (1, str, 1);
 		str++;
 	}
+}
+
+int	print_error(char *str)
+{
+	putstr(str);
+	return(0);
 }
 
 void	print_exit(char *str)

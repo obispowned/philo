@@ -6,31 +6,32 @@
 /*   By: agutierr <agutierr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/20 15:45:38 by agutierr          #+#    #+#             */
-/*   Updated: 2021/09/18 19:05:28 by agutierr         ###   ########.fr       */
+/*   Updated: 2021/10/07 18:34:03 by agutierr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../headers/philo.h"
 
-void	parsing_argv(int argc, char **argv, t_dat *dat)
+int	parsing_argv(int argc, char **argv, t_dat *dat)
 {
 	dat->total_eats = -1;
 	if (argc == 6)
 	{
 		if (!argv[5] || !isallnum(argv[5]))
-			print_exit("Error\nYou must use only integer numbers!");
+			return(print_error("Error\nYou must use only integer numbers!"));
 		dat->total_eats = (uint64_t)ft_atol(argv[5]);
 	}
 	if (!isallnum(argv[1]) || !isallnum(argv[2])
 		|| !isallnum(argv[3]) || !isallnum(argv[4]))
-		print_exit("Error\nYou must use only integer numbers!");
+		return(print_error("Error\nYou must use only integer numbers!"));
 	dat->total_ph = (unsigned int)ft_atol(argv[1]);
 	dat->tdie = (uint64_t)ft_atol(argv[2]);
 	dat->teat = (uint64_t)ft_atol(argv[3]);
 	dat->tsleep = (uint64_t)ft_atol(argv[4]);
 	if (!dat->total_ph || !dat->tdie || !dat->teat
 		|| !dat->tsleep)
-		print_exit("Error\nBad arguments");
+		return(print_error("Error\nBad arguments"));
+	return(1);
 }
 
 void	fill_structs2(t_dat *dat, int i)
