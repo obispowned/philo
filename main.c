@@ -6,7 +6,7 @@
 /*   By: agutierr <agutierr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/19 19:05:01 by agutierr          #+#    #+#             */
-/*   Updated: 2021/09/18 19:31:26 by agutierr         ###   ########.fr       */
+/*   Updated: 2021/10/07 17:30:41 by agutierr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ uint64_t	time_to_sleep(t_ph *philo)
 uint64_t	time_to_think(t_ph *philo)
 {
 	printer(WHITE, start_clock(philo->start), philo, "is thinking...");
+	//usleep(50);
 	return (0);
 }	
 
@@ -44,14 +45,14 @@ void	*rutine(void *arg)
 	t_ph		*philo;
 	
 	philo = (t_ph *)arg;
-	if (philo->total_ph % 2 == 0 && philo->ph_n % 2 == 0)
-		ft_usleep(philo->teat);
-	if (((philo->total_ph % 2 != 0) && (philo->total_ph != 1)) && ((philo->ph_n == philo->total_ph -1) || philo->total_ph % 2 == 0))
-		ft_usleep(philo->teat);
+	if (philo->ph_n % 2 == 0)
+		ft_usleep(philo->teat - 10);
+	if (((philo->total_ph % 2 != 0) && (philo->total_ph != 1)) && ((philo->ph_n == philo->total_ph -1)))
+		ft_usleep(philo->teat - 10);
 	while (*philo->banquet == ON)
 	{
 		take_fork_prior(philo);
-		//philo->caronte_comes = 0;
+		philo->caronte_comes = 0;
 		time_to_eat(philo);
 		time_to_sleep(philo);
 		time_to_think(philo);
@@ -92,11 +93,18 @@ int	status_checker(t_dat *dat)
 	}
 	return (0);
 }
+void	leak()
+{
+	system("leaks philo");
+}
 
 int	main(int argc, char **argv)
 {
 	t_dat			dat;
+	int				i;
 
+	i = 0;
+	atexit(leak);
 	if (argc < 5 || argc > 6)
 		print_exit("Error\nNumero de argumentos invalido.");
 	parsing_argv(argc, argv, &dat);
@@ -109,6 +117,11 @@ int	main(int argc, char **argv)
 	else if (status_checker(&dat) == 1 && dat.total_ph > 1)
 	{
 		run_threads(&dat);
+	}
+	while (i < dat.total_ph)
+	{
+		pthread_detach(dat.philos[i].philos);
+		i++;
 	}
 	turbofree(&dat);
 	return (0);
