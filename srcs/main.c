@@ -6,11 +6,11 @@
 /*   By: agutierr <agutierr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/19 19:05:01 by agutierr          #+#    #+#             */
-/*   Updated: 2021/10/07 17:30:41 by agutierr         ###   ########.fr       */
+/*   Updated: 2021/10/07 18:02:43 by agutierr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "headers/philo.h"
+#include "../headers/philo.h"
 
 uint64_t	time_to_eat(t_ph *philo)
 {
@@ -102,13 +102,14 @@ int	main(int argc, char **argv)
 {
 	t_dat			dat;
 	int				i;
+	pthread_mutex_t	*mtx;
 
 	i = 0;
 	atexit(leak);
 	if (argc < 5 || argc > 6)
 		print_exit("Error\nNumero de argumentos invalido.");
 	parsing_argv(argc, argv, &dat);
-	fill_structs(&dat);
+	mtx = fill_structs(&dat);
 	create_threads(&dat);
 	if (status_checker(&dat) == 0 && dat.total_ph > 1)
 	{
@@ -123,6 +124,6 @@ int	main(int argc, char **argv)
 		pthread_detach(dat.philos[i].philos);
 		i++;
 	}
-	turbofree(&dat);
+	turbofree(&dat, mtx);
 	return (0);
 }

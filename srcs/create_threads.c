@@ -6,7 +6,7 @@
 /*   By: agutierr <agutierr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/04 17:32:55 by agutierr          #+#    #+#             */
-/*   Updated: 2021/10/07 17:31:47 by agutierr         ###   ########.fr       */
+/*   Updated: 2021/10/07 17:47:00 by agutierr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,14 +32,15 @@ void	run_threads(t_dat *dat)
 	i = 0;
 	while (i < dat->total_ph)
 	{
-		pthread_detach(dat->philos[i].philos);
-		//pthread_join(dat->philos[i].philos, NULL);
+		pthread_join(dat->philos[i].philos, NULL);
 		i++;
 	}
 }
 
-void	turbofree(t_dat *dat)
+void	turbofree(t_dat *dat, pthread_mutex_t *mtx)
 {
-	
+	free(dat->philos[0].fork_flags);
+	free(mtx);
+	free(dat->philos[0].mprint);
 	free(dat->philos);
 }

@@ -6,7 +6,7 @@
 /*   By: agutierr <agutierr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/04 16:53:19 by agutierr          #+#    #+#             */
-/*   Updated: 2021/10/06 20:49:32 by agutierr         ###   ########.fr       */
+/*   Updated: 2021/10/07 18:19:48 by agutierr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,7 @@ void	printer(char *color, uint64_t timer, t_ph *philo, char *msg)
 			*philo->banquet = OFF;
 		pthread_mutex_lock(philo->mprint);
 		printf("%s| %-8llu ms | %s(%d) %s.\n", CYAN, timer, color, philo->ph_n, msg);
+		printf("%s", RESET_COLOR);
 		pthread_mutex_unlock(philo->mprint);
 	}
 }

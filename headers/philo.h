@@ -6,7 +6,7 @@
 /*   By: agutierr <agutierr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/19 19:02:17 by agutierr          #+#    #+#             */
-/*   Updated: 2021/10/06 20:50:34 by agutierr         ###   ########.fr       */
+/*   Updated: 2021/10/07 18:21:19 by agutierr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@
 # define MAGENTA "\x1b[35m"
 # define CYAN "\x1b[36m"
 # define WHITE "\x1b[37m"
+#define RESET_COLOR "\x1b[m"
 
 # define ON 1
 # define OFF 0
@@ -109,7 +110,7 @@ uint64_t		start_clock(uint64_t start);
 */
 void			create_threads(t_dat *dat);
 void			run_threads(t_dat *dat);
-void			turbofree(t_dat *dat);
+void			turbofree(t_dat *dat, pthread_mutex_t *mtx);
 
 void			take_fork(t_ph *philo);
 uint64_t		time_to_eat(t_ph *philo);
