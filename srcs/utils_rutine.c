@@ -6,7 +6,7 @@
 /*   By: agutierr <agutierr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/09 20:30:30 by agutierr          #+#    #+#             */
-/*   Updated: 2021/10/07 17:48:43 by agutierr         ###   ########.fr       */
+/*   Updated: 2021/10/08 20:38:26 by agutierr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ void	take_fork_prior(t_ph *philo)
 void	max_eats_check(t_ph *philo)
 {
 	if (philo->eat_count == philo->total_eats)
-		(*(philo->full_eats))+=1;
+		(*(philo->full_eats)) += 1;
 }
 
 void	take_fork(t_ph *philo)

@@ -6,7 +6,7 @@
 /*   By: agutierr <agutierr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/19 19:02:17 by agutierr          #+#    #+#             */
-/*   Updated: 2021/10/07 18:34:21 by agutierr         ###   ########.fr       */
+/*   Updated: 2021/10/08 21:39:38 by agutierr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@
 # define MAGENTA "\x1b[35m"
 # define CYAN "\x1b[36m"
 # define WHITE "\x1b[37m"
-#define RESET_COLOR "\x1b[m"
+# define RESET_COLOR "\x1b[m"
 
 # define ON 1
 # define OFF 0
@@ -97,9 +97,10 @@ void			ace(char *str, ...);
 /*
 *  fill_nd_parse.c
 */
-int			parsing_argv(int argc, char **argv, t_dat *dat);
+int				parsing_argv(int argc, char **argv, t_dat *dat);
 pthread_mutex_t	*fill_structs(t_dat *dat);
-
+void			fill_struct_for_normi(t_dat *dat, pthread_mutex_t
+					*mtx, int *forky_flag, pthread_mutex_t *dead);
 
 /*
 **	timers.c
@@ -126,7 +127,7 @@ void			status_check(t_ph *philo);
 void			take_fork(t_ph *philo);
 void			take_fork_prior(t_ph *philo);
 
-int 			strafing_killer(t_dat *dat, int i);
+int				strafing_killer(t_dat *dat, int i);
 int				dead_checker(t_dat *dat);
 
 #endif

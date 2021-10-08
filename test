@@ -30,3 +30,14 @@
 ./philo 5 400 125 375	V muerte
 ./philo 5 700 200 300	V
 ./philo 5 200 50 10     V
+
+
+
+PROBLEMAS ANTES DE ENTREGAR:
+
+ps -a ME DEJA ABIERTOS LOS PROCESOS CUANDO USO CNTRL + Z, si muere un philo no me da
+ese problema
+
+./PHILO 5 310 100 100 A VECES NO ME FUNCIONA
+
+MAKEFILE

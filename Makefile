@@ -6,7 +6,7 @@
 #    By: agutierr <agutierr@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/08/04 16:53:08 by agutierr          #+#    #+#              #
-#    Updated: 2021/10/07 19:01:14 by agutierr         ###   ########.fr        #
+#    Updated: 2021/10/08 21:59:27 by agutierr         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,12 +20,12 @@ SRC_PATH = ./srcs
 #				ARCHIVOS
 SRCS			=	srcs/main.c srcs/free.c srcs/utils.c srcs/msg.c\
 					srcs/fill_nd_parse.c srcs/timers.c srcs/create_threads.c\
-					srcs/utils_rutine.c\
+					srcs/philo_actions.c srcs/utils_rutine.c srcs/ft_atoi.c\
 					
 OBJS 			=	$(SRCS:.c=.o)
 
 #				OBJS
-OBJ = $(addprefix $(OBJ_PATH)/,$(SRCS:.c=.o))
+OBJ 			=	$(addprefix $(OBJ_PATH)/,$(SRCS:.c=.o))
 
 GCC 			=	gcc
 CFLAGS			=	-Wall -Wall -Werror -O3
@@ -60,7 +60,7 @@ fclean: clean
 
 clean:
 	@echo "${RED}  Limpiando OBJs ... ${RESET}"
-	@rm -rf $(OBJ_PATH)
+	@rm -rf srcs/*.o
 
 re: fclean all
 
