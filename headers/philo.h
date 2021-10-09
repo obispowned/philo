@@ -6,7 +6,7 @@
 /*   By: agutierr <agutierr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/19 19:02:17 by agutierr          #+#    #+#             */
-/*   Updated: 2021/10/08 21:39:38 by agutierr         ###   ########.fr       */
+/*   Updated: 2021/10/09 19:25:11 by agutierr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,7 @@ int				isallnum(char *str);
 */
 void			putstr(char *str);
 int				ret_error(char *str);
-void			printer(char *color, uint64_t timer, t_ph *philo, char *msg);
+void			printer(char *color, t_ph *philo, char *msg);
 int				print_error(char *str);
 
 /*
@@ -105,9 +105,10 @@ void			fill_struct_for_normi(t_dat *dat, pthread_mutex_t
 /*
 **	timers.c
 */
+uint64_t		start_clock(void);
 void			ft_usleep(uint64_t miliseconds);
-uint64_t		start_clock(uint64_t start);
-
+void			ft_usleep2(int numofphilos, uint64_t milliseconds);
+int				ft_time(int start);
 /*
 **	create threads
 */

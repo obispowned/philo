@@ -6,7 +6,7 @@
 /*   By: agutierr <agutierr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/19 19:05:01 by agutierr          #+#    #+#             */
-/*   Updated: 2021/10/08 21:56:50 by agutierr         ###   ########.fr       */
+/*   Updated: 2021/10/09 19:23:46 by agutierr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,31 +17,28 @@ void	*rutine(void *arg)
 	t_ph		*philo;
 
 	philo = (t_ph *)arg;
-	if (philo->ph_n % 2 == 0)
-		ft_usleep(philo->teat - 10);
-	if (((philo->total_ph % 2 != 0) && (philo->total_ph != 1))
-		&& ((philo->ph_n == philo->total_ph - 1)))
-		ft_usleep(philo->teat + 10);
+	if ((philo->ph_n + 1) % 2 == 0)
+		usleep(300);
 	while (*philo->banquet == ON)
 	{
-		take_fork_prior(philo);
-		philo->caronte_comes = 0;
 		time_to_eat(philo);
 		time_to_sleep(philo);
 		time_to_think(philo);
 	}
-	return ((void*)0);
+	return ((void *)0);
 }
 
-void	printerd(char *color, uint64_t timer, t_ph *philo, char *msg)
+void	printerd(char *color, t_ph *philo, char *msg)
 {
 	pthread_mutex_lock(philo->mprint);
-	printf("%s| %-8llu ms | %s(%d) %s.\n", CYAN, timer, color, philo->ph_n, msg);
+	printf("%s| %-8llu ms | %s(%d) %s.\n", CYAN,
+		(start_clock() - philo->start), color, philo->ph_n, msg);
 }
 
 int	strafing_killer(t_dat *dat, int i)
 {
-	printer(RED, start_clock(dat->begin), &(dat->philos[i]), "is dead");
+	printerd(RED, &(dat->philos[i]), "is dead");
+	dat->banquet = OFF;
 	return (0);
 }
 
@@ -50,17 +47,15 @@ int	status_checker(t_dat *dat)
 	int	i;
 
 	i = 0;
-	while (1)
+	while (dat->banquet != OFF)
 	{
-		if (start_clock(dat->philos[i].last_eat) > dat->tdie)
-		{
-			return (strafing_killer(dat, i));
-		}
 		if (*dat->philos[0].full_eats == dat->total_ph)
 		{
 			dat->banquet = OFF;
 			return (1);
 		}
+		if ((start_clock() - dat->philos[i].last_eat) > dat->tdie)
+			return (strafing_killer(dat, i));
 		i++;
 		if (i == dat->total_ph)
 			i = 0;
@@ -81,19 +76,15 @@ int	main(int argc, char **argv)
 		return (0);
 	mtx = fill_structs(&dat);
 	create_threads(&dat);
-	if (status_checker(&dat) == 0 && dat.total_ph > 1)
+	if (status_checker(&dat) == 1 && dat.total_ph > 1)
 	{
-		run_threads(&dat);
+		while (i < dat.total_ph)
+		{
+			pthread_detach(dat.philos[i].philos);
+			i++;
+		}
 	}
-	else if (status_checker(&dat) == 1 && dat.total_ph > 1)
-	{
-		run_threads(&dat);
-	}
-	while (i < dat.total_ph)
-	{ 
-		pthread_detach(dat.philos[i].philos);
-		i++;
-	}
+	run_threads(&dat);
 	turbofree(&dat, mtx);
 	return (0);
 }

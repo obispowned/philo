@@ -6,7 +6,7 @@
 /*   By: agutierr <agutierr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/20 15:45:38 by agutierr          #+#    #+#             */
-/*   Updated: 2021/10/08 20:45:39 by agutierr         ###   ########.fr       */
+/*   Updated: 2021/10/09 18:53:12 by agutierr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,12 +18,14 @@ int	parsing_argv(int argc, char **argv, t_dat *dat)
 	if (argc == 6)
 	{
 		if (!argv[5] || !isallnum(argv[5]))
-			return (print_error("Error\nYou must use only integer numbers!"));
+			return (print_error("Error\nYou must use only unsigned numbers!"));
 		dat->total_eats = (uint64_t)ft_atol(argv[5]);
+		if (dat->total_eats == 0)
+			return (0);
 	}
 	if (!isallnum(argv[1]) || !isallnum(argv[2])
 		|| !isallnum(argv[3]) || !isallnum(argv[4]))
-		return (print_error("Error\nYou must use only integer numbers!"));
+		return (print_error("Error\nYou must use only unsigned numbers!"));
 	dat->total_ph = (unsigned int)ft_atol(argv[1]);
 	dat->tdie = (uint64_t)ft_atol(argv[2]);
 	dat->teat = (uint64_t)ft_atol(argv[3]);
@@ -39,7 +41,8 @@ void	fill_structs2(t_dat *dat, int i)
 	int	flag_eats;
 
 	flag_eats = 0;
-	dat->begin = start_clock(0);
+	dat->begin = start_clock();
+	dat->philos[i].last_eat = start_clock();
 	dat->philos[i].ph_n = i;
 	dat->philos[i].tdie = dat->tdie;
 	dat->philos[i].teat = dat->teat;
@@ -51,7 +54,6 @@ void	fill_structs2(t_dat *dat, int i)
 	else
 		dat->philos[i].rfork = i - 1;
 	dat->philos[i].total_eats = dat->total_eats;
-	dat->philos[i].last_eat = dat->begin;
 	dat->philos[i].caronte_comes = 0;
 	dat->philos[i].total_ph = dat->total_ph;
 	dat->philos[i].flag_eat_max = &flag_eats;

@@ -6,7 +6,7 @@
 /*   By: agutierr <agutierr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/04 16:52:52 by agutierr          #+#    #+#             */
-/*   Updated: 2021/10/08 20:29:55 by agutierr         ###   ########.fr       */
+/*   Updated: 2021/10/09 18:50:12 by agutierr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,22 +14,47 @@
 
 void	ft_usleep(uint64_t miliseconds)
 {
-	uint64_t	start;
+	int	start;
 
-	start = start_clock(0);
-	while (start_clock(start) < miliseconds)
+	start = ft_time(0);
+	while (ft_time(start) < miliseconds)
+	{
 		usleep(1);
+	}
 }
 
-uint64_t	start_clock(uint64_t start)
+void	ft_usleep2(int numofphilos, uint64_t milliseconds)
 {
-	struct timeval	aux_clock;
-	uint64_t		ret;
+	uint64_t		time;
+	uint64_t		end_ms;
+
+	time = start_clock();
+	end_ms = time + milliseconds;
+	while (time < end_ms)
+	{
+		time = start_clock();
+		usleep(numofphilos);
+	}
+}
+
+int	ft_time(int start)
+{
+	int					current_time;
+	struct timeval		aux_clock;
 
 	gettimeofday(&aux_clock, NULL);
-	ret = (aux_clock.tv_sec * 1000) + (aux_clock.tv_usec / 1000);
-	ret -= start;
-	return (ret);
+	current_time = (int)
+		((aux_clock.tv_usec / 1000) + (aux_clock.tv_sec * 1000));
+	return (current_time - start);
+}
+
+uint64_t	start_clock(void)
+{
+	struct timeval	aux_clock;
+
+	gettimeofday(&aux_clock, NULL);
+	return ((long long)((aux_clock.tv_usec / 1000))
+		+ (aux_clock.tv_sec * 1000));
 }
 
 /*
