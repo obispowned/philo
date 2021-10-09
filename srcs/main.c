@@ -6,7 +6,7 @@
 /*   By: agutierr <agutierr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/19 19:05:01 by agutierr          #+#    #+#             */
-/*   Updated: 2021/10/09 19:23:46 by agutierr         ###   ########.fr       */
+/*   Updated: 2021/10/09 19:41:03 by agutierr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ int	strafing_killer(t_dat *dat, int i)
 {
 	printerd(RED, &(dat->philos[i]), "is dead");
 	dat->banquet = OFF;
-	return (0);
+	return (1);
 }
 
 int	status_checker(t_dat *dat)
@@ -76,7 +76,7 @@ int	main(int argc, char **argv)
 		return (0);
 	mtx = fill_structs(&dat);
 	create_threads(&dat);
-	if (status_checker(&dat) == 1 && dat.total_ph > 1)
+	if (status_checker(&dat) == 1)
 	{
 		while (i < dat.total_ph)
 		{
@@ -84,7 +84,7 @@ int	main(int argc, char **argv)
 			i++;
 		}
 	}
-	run_threads(&dat);
+	join_threads(&dat);
 	turbofree(&dat, mtx);
 	return (0);
 }

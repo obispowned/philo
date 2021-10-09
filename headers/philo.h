@@ -6,7 +6,7 @@
 /*   By: agutierr <agutierr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/19 19:02:17 by agutierr          #+#    #+#             */
-/*   Updated: 2021/10/09 19:25:11 by agutierr         ###   ########.fr       */
+/*   Updated: 2021/10/09 19:40:00 by agutierr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,7 +113,7 @@ int				ft_time(int start);
 **	create threads
 */
 void			create_threads(t_dat *dat);
-void			run_threads(t_dat *dat);
+void			join_threads(t_dat *dat);
 void			turbofree(t_dat *dat, pthread_mutex_t *mtx);
 
 void			take_fork(t_ph *philo);
